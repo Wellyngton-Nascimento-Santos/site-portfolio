@@ -1000,10 +1000,18 @@ footer .footer_comercial {
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 100px;
+    height: 160px;
+    overflow: hidden;
     font-size: 2.2rem;
     color: var(--color-accent);
     background-color: var(--color-bg-soft);
+}
+
+.portfolio_card_media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
 }
 
 .portfolio_card_body {

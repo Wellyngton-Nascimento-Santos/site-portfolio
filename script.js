@@ -93,7 +93,11 @@ function renderProjetos(){
     container.innerHTML = projetos.map((projeto) => `
         <article class="portfolio_card">
             ${projeto.badge ? `<span class="portfolio_card_badge">${projeto.badge}</span>` : ''}
-            <div class="portfolio_card_media"><i class="fa-solid fa-code"></i></div>
+            <div class="portfolio_card_media">
+                ${projeto.imagem
+                    ? `<img src="${projeto.imagem}" alt="Captura de tela do projeto ${projeto.titulo}" loading="lazy">`
+                    : `<i class="fa-solid fa-code"></i>`}
+            </div>
             <div class="portfolio_card_body">
                 <h3 class="portfolio_card_title">${projeto.titulo}</h3>
                 <p class="portfolio_card_desc">${projeto.descricao}</p>

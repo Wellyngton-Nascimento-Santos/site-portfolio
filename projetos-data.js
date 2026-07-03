@@ -21,28 +21,28 @@ const projetos = [
     {
         titulo: "Sistema de Autenticação",
         descricao: "Tela de login com validação de campos e tratamento de erros.",
-        imagem: "",
+        imagem: "img-projects/login.jpg",
         link: "https://github.com/Wellyngton-Nascimento-Santos/login",
         tags: ["HTML", "CSS", "JavaScript"]
     },
     {
         titulo: "Cadastro de Usuários",
         descricao: "Formulário de cadastro com validação de dados e feedback visual em tempo real.",
-        imagem: "",
+        imagem: "img-projects/cadastro.jpg",
         link: "https://github.com/Wellyngton-Nascimento-Santos/Cadastro",
         tags: ["HTML", "CSS", "JavaScript"]
     },
     {
         titulo: "Painel Administrativo",
         descricao: "Dashboard com visualização de dados e navegação entre seções.",
-        imagem: "",
+        imagem: "img-projects/dashboard.jpg",
         link: "https://github.com/Wellyngton-Nascimento-Santos/dashboard",
         tags: ["HTML", "CSS", "JavaScript"]
     },
     {
         titulo: "Formulário Dinâmico",
         descricao: "Formulário com validação de campos e envio de dados estruturado.",
-        imagem: "",
+        imagem: "img-projects/formulario.jpg",
         link: "https://github.com/Wellyngton-Nascimento-Santos/formulario",
         tags: ["HTML", "CSS", "JavaScript"]
     }
