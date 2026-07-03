@@ -833,7 +833,7 @@ main .sobre {
 /* FOOTER */
 footer {
     background-color: var(--color-bg);
-    padding: 30px;
+    padding: 30px 30px 180px;
 }
 
 .footer_sociais {
