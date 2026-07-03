@@ -86,6 +86,31 @@ function sobreMim(){
 sobreMim();
 
 
+function renderProjetos(){
+    const container = document.querySelector('#portfolioGrid');
+    if (!container) return;
+
+    container.innerHTML = projetos.map((projeto) => `
+        <article class="portfolio_card">
+            ${projeto.badge ? `<span class="portfolio_card_badge">${projeto.badge}</span>` : ''}
+            <div class="portfolio_card_media"><i class="fa-solid fa-code"></i></div>
+            <div class="portfolio_card_body">
+                <h3 class="portfolio_card_title">${projeto.titulo}</h3>
+                <p class="portfolio_card_desc">${projeto.descricao}</p>
+                <ul class="portfolio_card_tags">
+                    ${projeto.tags.map((tag) => `<li>${tag}</li>`).join('')}
+                </ul>
+                <a href="${projeto.link}" target="_blank" rel="noopener" class="portfolio_card_link">
+                    <i class="fa-brands fa-github"></i> Ver no GitHub
+                </a>
+            </div>
+        </article>
+    `).join('');
+}
+
+renderProjetos();
+
+
 const listaALL = document.querySelectorAll('.projects_armazenamento ul li');
 const buttonGeral = document.querySelectorAll('.projects_models ul li');
 const buttonALL = document.querySelectorAll('.projects_models .all');
@@ -109,26 +134,15 @@ function showLista(lista, buttom = "todos"){
         item.classList.remove('ativo');
     })
     if(buttom == 'finalizados'){
-        lista[1].classList.add('ativo');
-        lista[2].classList.add('ativo');
-        lista[3].classList.add('ativo');
-        lista[4].classList.add('ativo');
-        lista[5].classList.add('ativo');
-        lista[6].classList.add('ativo');
-        lista[7].classList.add('ativo');
+        lista.forEach((item, index) => {
+            if(index > 0) item.classList.add('ativo');
+        });
     }
     if(buttom == 'andamento'){
         lista[0].classList.add('ativo');
     }
     if(buttom == 'todos'){
-        lista[0].classList.add('ativo');
-        lista[1].classList.add('ativo');
-        lista[2].classList.add('ativo');
-        lista[3].classList.add('ativo');
-        lista[4].classList.add('ativo');
-        lista[5].classList.add('ativo');
-        lista[6].classList.add('ativo');
-        lista[7].classList.add('ativo');
+        lista.forEach((item) => item.classList.add('ativo'));
     }
 }
 
@@ -169,100 +183,22 @@ function ocultar(){
 ocultar();
 
 
+function enviarFormulario(){
+    const form = document.querySelector('#contactForm');
+    if (!form) return;
 
-const urlDonadella = "https://github.com/somentedois/Donnadela-Commerce",
- urlPizzaria = "https://github.com/Wellyngton-Nascimento-Santos/pizzaria-cli",
- urlLogin = "https://github.com/Wellyngton-Nascimento-Santos/login",
- urlCadastro = "https://github.com/Wellyngton-Nascimento-Santos/Cadastro",
- urlDashboard = "https://github.com/Wellyngton-Nascimento-Santos/dashboard",
- urlFormulario = "https://github.com/Wellyngton-Nascimento-Santos/formulario",
- urlFlexbox1 = "https://github.com/Wellyngton-Nascimento-Santos/flexbox1",
- urlFlexbox2 = "https://github.com/Wellyngton-Nascimento-Santos/flexbox2";
+    form.addEventListener('submit', function(e){
+        e.preventDefault();
 
-const btnDonadella = document.querySelector("#btnDonadella"),
- btnPizzaria = document.querySelector("#btnPizzaria"),
- btnLogin = document.querySelector("#btnLogin"),
- btnCadastro = document.querySelector("#btnCadastro"),
- btnDashboard = document.querySelector("#btnDashboard"),
- btnFormulario = document.querySelector("#btnFormulario"),
- btnFlexbox1 = document.querySelector("#btnFlexbox1"),
- btnFlexbox2 = document.querySelector("#btnFlexbox2");
+        const nome = document.querySelector('#contactName').value.trim();
+        const contato = document.querySelector('#contactPhone').value.trim();
+        const mensagem = document.querySelector('#contactMessage').value.trim();
 
+        const texto = `Olá! Me chamo ${nome}.\nContato: ${contato}\nMensagem: ${mensagem}`;
+        const url = `https://wa.me/5511940008552?text=${encodeURIComponent(texto)}`;
 
-function openDonadella(urlDonadella) {
-    const win = window.open(urlDonadella, '_blank');
-    win.focus();
+        window.open(url, '_blank');
+    });
 }
 
-btnDonadella.addEventListener('click', function(){
-    openDonadella(urlDonadella);
-});
-
-
-function openPizzaria(urlPizzaria) {
-    const win = window.open(urlPizzaria, '_blank');
-    win.focus();
-}
-
-btnPizzaria.addEventListener('click', function(){
-    openPizzaria(urlPizzaria);
-});
-
-
-function openLogin(urlLogin) {
-    const win = window.open(urlLogin, '_blank');
-    win.focus();
-}
-
-btnLogin.addEventListener('click', function(){
-    openLogin(urlLogin);
-});
-
-
-function openCadastro(urlCadastro) {
-    const win = window.open(urlCadastro, '_blank');
-    win.focus();
-}
-
-btnCadastro.addEventListener('click', function(){
-    openCadastro(urlCadastro);
-});
-
-
-function openDashboard(urlDashboard) {
-    const win = window.open(urlDashboard, '_blank');
-    win.focus();
-}
-
-btnDashboard.addEventListener('click', function(){
-    openDashboard(urlDashboard);
-});
-
-
-function openFormulario(urlFormulario) {
-    const win = window.open(urlFormulario, '_blank');
-    win.focus();
-}
-
-btnFormulario.addEventListener('click', function(){
-    openFormulario(urlFormulario);
-});
-
-
-function openFlexbox1(urlFlexbox1) {
-    const win = window.open(urlFlexbox1, '_blank');
-    win.focus();
-}
-
-btnFlexbox1.addEventListener('click', function(){
-    openFlexbox1(urlFlexbox1);
-});
-
-function openFlexbox2(urlFlexbox2) {
-    const win = window.open(urlFlexbox2, '_blank');
-    win.focus();
-}
-
-btnFlexbox2.addEventListener('click', function(){
-    openFlexbox2(urlFlexbox2);
-});
+enviarFormulario();

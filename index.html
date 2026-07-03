@@ -19,9 +19,11 @@
                 <li><a href="#sobre">Sobre</a></li>
                 <li><a href="#resumo">Experiência / Formação</a></li>
                 <li><a href="#projetos">Cursos</a></li>
-                <li><a href="#contato">Redes Sociais</a></li>
+                <li><a href="#portfolio">Projetos</a></li>
+                <li><a href="#servicos">Serviços</a></li>
+                <li><a href="#contato">Contato</a></li>
             </ul>
-            <i class="fa-solid fa-bars"></i> 
+            <i class="fa-solid fa-bars"></i>
         </nav>
     </header>
     <section aria-label="seção curriculo dowload Wellyngton" class="section-div">
@@ -51,11 +53,9 @@
             <div class="sobre_conteudo">
                 <div class="sobre_texto">
                     <h1>Eu sou Wellyngton</h1>
-                    <p>Um programador de 28 anos, apaixonado por tecnologia e sempre em busca de novidades. 
-                    Dedico-me ao estudo e prática constantes para aprimorar minhas habilidades. 
-                    <br>Atualmente, estou em busca de novas oportunidades profissionais na área da programação e também trabalho como freelancer. 
-                    <br>Minha busca por conhecimento e minha paixão pela programação impulsionam meu desejo de crescer e me destacar como desenvolvedor. 
-                    Estou animado para enfrentar novos desafios e contribuir com soluções inovadoras na indústria tecnológica. 
+                    <p>Sou um Desenvolvedor Full Stack especializado em Node.js e tecnologias Web, com foco em criar soluções eficientes, escaláveis e com excelente experiência para o usuário. 
+                    Tenho 30 anos e, ao longo da minha trajetória, venho atuando no desenvolvimento de aplicações web e em projetos freelance, sempre buscando entregar resultados de alto impacto. 
+                    <br>Estou pronto para novos desafios e para contribuir com equipes e clientes em projetos inovadores.
                     </p>
                 </div>
                 <div class="sobre_info">
@@ -228,11 +228,87 @@
       <!--  <a href="https://github.com/Wellyngton-Nascimento-Santos?tab=repositories" target="_blank">Mais</a> -->
     </section>
 
-    <div id="btnTop">
-        <i class="arrow up"></i>
+    <section id="portfolio" class="portfolio" aria-label="seção de projetos e portfólio">
+        <div class="sobre_titulo">
+            <h1>Projetos</h1>
+            <p>Alguns dos projetos que desenvolvi</p>
+            <div aria-label="Seção apenas de ilustração de botões">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        <div class="portfolio_grid" id="portfolioGrid"></div>
+    </section>
+
+    <section id="servicos" class="services" aria-label="seção de serviços oferecidos">
+        <div class="sobre_titulo">
+            <h1>Serviços</h1>
+            <p>Soluções sob medida para o seu projeto</p>
+            <div aria-label="Seção apenas de ilustração de botões">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        <div class="services_grid">
+            <div class="services_card">
+                <i class="fa-solid fa-rocket"></i>
+                <h3>Landing Pages</h3>
+                <p>Página única, otimizada para conversão e velocidade de carregamento.</p>
+                <span class="services_price">A partir de R$ 600</span>
+                <a href="#contato" class="services_cta">Solicitar orçamento</a>
+            </div>
+            <div class="services_card">
+                <i class="fa-solid fa-building"></i>
+                <h3>Sites Institucionais</h3>
+                <p>Presença online completa para apresentar sua empresa e serviços.</p>
+                <span class="services_price">A partir de R$ 1.500</span>
+                <a href="#contato" class="services_cta">Solicitar orçamento</a>
+            </div>
+            <div class="services_card">
+                <i class="fa-solid fa-calendar-check"></i>
+                <h3>Sistemas de Agendamento</h3>
+                <p>Plataforma para seus clientes agendarem horários com você online.</p>
+                <span class="services_price">A partir de R$ 2.000</span>
+                <a href="#contato" class="services_cta">Solicitar orçamento</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="contato" class="contact" aria-label="seção de contato">
+        <div class="sobre_titulo">
+            <h1>Vamos Conversar</h1>
+            <p>Envie uma mensagem, respondo pelo WhatsApp</p>
+            <div aria-label="Seção apenas de ilustração de botões">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        <form class="contact_form" id="contactForm">
+            <label for="contactName">Nome</label>
+            <input type="text" id="contactName" name="nome" required placeholder="Seu nome">
+            <label for="contactPhone">WhatsApp ou e-mail</label>
+            <input type="text" id="contactPhone" name="contato" required placeholder="Como posso te responder?">
+            <label for="contactMessage">Mensagem</label>
+            <textarea id="contactMessage" name="mensagem" required placeholder="Conte um pouco sobre seu projeto..."></textarea>
+            <button type="submit" class="contact_submit">
+                <i class="fa-brands fa-whatsapp"></i> Enviar via WhatsApp
+            </button>
+        </form>
+    </section>
+
+    <div class="floating_actions">
+        <div id="btnTop">
+            <i class="arrow up"></i>
+        </div>
+        <a href="https://wa.me/5511940008552?text=Ol%C3%A1!%20Vim%20pelo%20seu%20portf%C3%B3lio%20e%20gostaria%20de%20conversar%20sobre%20um%20projeto." target="_blank" id="btnWhats" class="floating_actions_whats" aria-label="Falar no WhatsApp">
+            <i class="fa-brands fa-whatsapp"></i>
+        </a>
     </div>
 
-    <footer id="contato">
+    <footer>
         <div class="sobre_titulo">
             <h1>Siga-me nas Redes Sociais</h1>
         </div>
@@ -247,6 +323,7 @@
         <p class="footer_comercial">Todos os direitos reservados - Wellyngton Nascimento Santos &copy; - 2023</p>
     </footer>
 
+    <script src="projetos-data.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
