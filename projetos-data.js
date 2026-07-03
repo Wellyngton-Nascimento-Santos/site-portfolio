@@ -19,18 +19,19 @@ const projetos = [
         badge: "Em desenvolvimento"
     },
     {
-        titulo: "Sistema de Autenticação",
-        descricao: "Tela de login com validação de campos e tratamento de erros.",
-        imagem: "img-projects/login.jpg",
-        link: "https://github.com/Wellyngton-Nascimento-Santos/login",
-        tags: ["HTML", "CSS", "JavaScript"]
+        titulo: "RWM Executivo",
+        descricao: "Landing page para empresa de transporte executivo, com seções de serviços, diferenciais, depoimentos e FAQ.",
+        imagem: "",
+        link: "https://wellyngton-nascimento-santos.github.io/rwmexecutivo/",
+        tags: ["HTML", "CSS", "JavaScript", "Landing Page", "Cliente Real"],
+        badge: "Em desenvolvimento"
     },
     {
-        titulo: "Cadastro de Usuários",
-        descricao: "Formulário de cadastro com validação de dados e feedback visual em tempo real.",
-        imagem: "img-projects/cadastro.jpg",
-        link: "https://github.com/Wellyngton-Nascimento-Santos/Cadastro",
-        tags: ["HTML", "CSS", "JavaScript"]
+        titulo: "Pinturas Profissionais",
+        descricao: "Landing page para profissional de pintura residencial e comercial, com seção de serviços, galeria de trabalhos e contato direto via WhatsApp.",
+        imagem: "",
+        link: "https://wellyngton-nascimento-santos.github.io/portfolio-pai/",
+        tags: ["HTML", "CSS", "JavaScript", "Landing Page", "Cliente Real"]
     },
     {
         titulo: "Painel Administrativo",
