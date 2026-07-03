@@ -21,7 +21,7 @@ const projetos = [
     {
         titulo: "RWM Executivo",
         descricao: "Landing page para empresa de transporte executivo, com seções de serviços, diferenciais, depoimentos e FAQ.",
-        imagem: "",
+        imagem: "img-projects/rwm-executivo.jpg",
         link: "https://wellyngton-nascimento-santos.github.io/rwmexecutivo/",
         tags: ["HTML", "CSS", "JavaScript", "Landing Page", "Cliente Real"],
         badge: "Em desenvolvimento"
@@ -29,7 +29,7 @@ const projetos = [
     {
         titulo: "Pinturas Profissionais",
         descricao: "Landing page para profissional de pintura residencial e comercial, com seção de serviços, galeria de trabalhos e contato direto via WhatsApp.",
-        imagem: "",
+        imagem: "img-projects/pinturas-profissionais.jpg",
         link: "https://wellyngton-nascimento-santos.github.io/portfolio-pai/",
         tags: ["HTML", "CSS", "JavaScript", "Landing Page", "Cliente Real"]
     },
