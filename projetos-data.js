@@ -23,8 +23,7 @@ const projetos = [
         descricao: "Landing page para empresa de transporte executivo, com seções de serviços, diferenciais, depoimentos e FAQ.",
         imagem: "img-projects/rwm-executivo.jpg",
         link: "https://wellyngton-nascimento-santos.github.io/rwmexecutivo/",
-        tags: ["HTML", "CSS", "JavaScript", "Landing Page", "Cliente Real"],
-        badge: "Em desenvolvimento"
+        tags: ["HTML", "CSS", "JavaScript", "Landing Page", "Cliente Real"]
     },
     {
         titulo: "Pinturas Profissionais",
