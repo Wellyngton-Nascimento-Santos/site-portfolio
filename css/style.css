@@ -420,6 +420,9 @@ main .sobre {
 }
 
 .working_card {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
     background-color: var(--color-surface);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-md);
@@ -431,16 +434,66 @@ main .sobre {
     /* Sem "transition" pro transform aqui: o tilt 3D (js/tilt.js) usa GSAP
        pra animar a rotação a cada movimento do mouse, e uma transition CSS
        concorrendo com isso deixaria o efeito com atraso/engasgado. */
-    transition: box-shadow var(--transition-base);
+    transition: box-shadow var(--transition-base), border-color var(--transition-base);
 }
 
 .working_card:hover {
-    box-shadow: var(--shadow-card);
+    border-color: var(--color-accent-cta);
+    box-shadow: var(--shadow-card), 0 0 24px rgba(var(--color-accent-cta-rgb), .25);
+}
+
+/* Spotlight que segue o cursor: js/tilt.js atualiza --mx/--my (posição do
+   mouse dentro do card, em %) a cada mousemove. O gradiente radial fica
+   invisível até o hover, quando some suavemente de dentro pra fora. */
+.working_card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: radial-gradient(220px circle at var(--mx, 50%) var(--my, 50%), rgba(var(--color-accent-cta-rgb), .16), transparent 70%);
+    opacity: 0;
+    transition: opacity var(--transition-base);
+    pointer-events: none;
+}
+
+.working_card:hover::before {
+    opacity: 1;
+}
+
+/* Brilho diagonal que "varre" o card da esquerda pra direita no hover */
+.working_card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -60%;
+    width: 40%;
+    height: 100%;
+    background: linear-gradient(115deg, transparent, rgba(255, 255, 255, .1), transparent);
+    transform: skewX(-20deg);
+    transition: left .7s ease;
+    pointer-events: none;
+}
+
+.working_card:hover::after {
+    left: 130%;
 }
 
 .working_icon {
+    display: inline-block;
     font-size: 1.8rem;
     line-height: 1;
+    transition: transform var(--transition-base), filter var(--transition-base);
+}
+
+.working_card:hover .working_icon {
+    transform: scale(1.25) rotate(-8deg);
+    filter: drop-shadow(0 0 10px rgba(var(--color-accent-cta-rgb), .6));
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .working_card::after {
+        transition: none;
+    }
 }
 
 .working_card h3 {
@@ -766,6 +819,8 @@ footer .footer_comercial {
 /* CONTATO */
 
 .contact {
+    position: relative;
+    overflow: hidden;
     padding: var(--space-md);
     display: grid;
     grid-template-columns: 1fr;
@@ -773,11 +828,104 @@ footer .footer_comercial {
     background-color: var(--color-bg-alt);
 }
 
+.contact > * {
+    position: relative;
+    z-index: 1;
+}
+
+/* Mesma ideia do fundo "aurora" da Hero (hero.css), reaproveitando os
+   keyframes auroraFloat1/2 — em tons de azul/ciano pra casar com a
+   identidade do site (não verde, que puxava a seção pro visual do WhatsApp). */
+.contact_aurora {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.contact_aurora span {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: .45;
+    mix-blend-mode: screen;
+}
+
+.contact_aurora span:nth-child(1) {
+    width: 380px;
+    height: 380px;
+    top: -130px;
+    left: 8%;
+    background: radial-gradient(circle, var(--color-accent), transparent 70%);
+    animation: auroraFloat1 22s ease-in-out infinite;
+}
+
+.contact_aurora span:nth-child(2) {
+    width: 340px;
+    height: 340px;
+    bottom: -140px;
+    right: 6%;
+    background: radial-gradient(circle, var(--color-accent-cta), transparent 70%);
+    animation: auroraFloat2 26s ease-in-out infinite;
+}
+
+.contact_card {
+    justify-self: center;
+    width: 100%;
+    max-width: 520px;
+    display: grid;
+    justify-items: center;
+    gap: var(--space-xs);
+    text-align: center;
+    padding: var(--space-lg) var(--space-md);
+    background: linear-gradient(180deg, rgba(255, 255, 255, .04), rgba(255, 255, 255, .01));
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    backdrop-filter: blur(6px);
+    transition: transform var(--transition-base), border-color var(--transition-base), box-shadow var(--transition-base);
+}
+
+.contact_card:hover {
+    transform: translateY(-4px);
+    border-color: var(--color-accent-cta);
+    box-shadow: var(--shadow-card), 0 0 30px rgba(var(--color-accent-cta-rgb), .3);
+}
+
+/* O ícone continua verde de propósito: é o próprio símbolo do WhatsApp,
+   então mantém a cor original do app pra ficar reconhecível. */
+.contact_card_icon {
+    font-size: 2.6rem;
+    color: var(--color-whatsapp);
+    animation: contactIconFloat 3s ease-in-out infinite;
+}
+
+@keyframes contactIconFloat {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50%      { transform: translateY(-6px) rotate(6deg); }
+}
+
+.contact_card h3 {
+    color: var(--color-text);
+    font-family: 'Poppins';
+    font-size: 1.3rem;
+}
+
+.contact_card > p {
+    color: var(--color-text-muted);
+    font-size: .95rem;
+    line-height: 1.5;
+    max-width: 380px;
+}
+
 .contact_whats_cta {
+    position: relative;
+    overflow: hidden;
     justify-self: center;
     display: inline-flex;
     align-items: center;
     gap: 12px;
+    margin-top: var(--space-xs);
     padding: 20px 48px;
     border-radius: var(--radius-md);
     background-color: var(--color-whatsapp);
@@ -787,16 +935,51 @@ footer .footer_comercial {
     font-size: 1.2rem;
     cursor: pointer;
     transition: transform var(--transition-fast), background-color var(--transition-fast), box-shadow var(--transition-fast);
+    /* Respiração sutil (ping) pra chamar o olho pro botão mesmo sem hover.
+       Fica verde de propósito — é o botão de ação do WhatsApp, o padrão
+       visual que todo mundo já reconhece. */
+    animation: ctaBreathe 2.4s ease-in-out infinite;
 }
 
 .contact_whats_cta i {
     font-size: 1.6rem;
 }
 
+/* Brilho diagonal que varre o botão, disparado no hover */
+.contact_whats_cta::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -75%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(115deg, transparent, rgba(255, 255, 255, .35), transparent);
+    transform: skewX(-20deg);
+    transition: left .6s ease;
+}
+
+.contact_whats_cta:hover::after {
+    left: 125%;
+}
+
 .contact_whats_cta:hover {
     transform: translateY(-3px);
     background-color: #1fb855;
     box-shadow: var(--shadow-card);
+    animation-play-state: paused;
+}
+
+@keyframes ctaBreathe {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, .45); }
+    50%      { box-shadow: 0 0 0 14px rgba(37, 211, 102, 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .contact_aurora span,
+    .contact_card_icon,
+    .contact_whats_cta {
+        animation: none;
+    }
 }
 
 

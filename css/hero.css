@@ -6,15 +6,41 @@
    (js/hero.js) anima até a posição final, criando a entrada em cascata.
    ========================================================================== */
 
+/* Fundo fixo com rede de partículas (ver .hero_particles e js/particles.js).
+   O canvas fica "grudado" na tela atrás de tudo (position: fixed no body);
+   por isso a Hero NÃO tem background-color própria — é essa transparência
+   que deixa o canvas aparecer aqui. Assim que a página rola pra próxima
+   seção (que tem fundo sólido), ela cobre o canvas naturalmente, criando
+   o efeito de fundo fixo enquanto o site "desce" por cima. */
 .hero {
     position: relative;
-    background-color: var(--color-bg);
     min-height: 70vh;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 60px 40px;
     overflow: hidden;
+}
+
+/* Canvas da rede de partículas — fixo no viewport, atrás de todo o resto
+   do site. z-index negativo garante que toda seção com fundo sólido
+   (Serviços, Projetos, etc.) o cubra normalmente ao rolar a página. */
+.hero_particles {
+    position: fixed;
+    top: 0;
+    left: 50%;
+    width: 100%;
+    /* Mesma largura máxima do <body> (ver style.css), centralizado com o
+       truque left:50% + translateX(-50%) — assim o canvas nunca "vaza"
+       nas laterais em telas largas, onde o site já limita tudo a 1200px. */
+    max-width: 1200px;
+    /* <canvas> é um elemento "replaced" — diferente de uma div comum, ele
+       NÃO estica sozinho só com top:0/bottom:0, precisa de altura explícita. */
+    height: 100vh;
+    transform: translateX(-50%);
+    z-index: -1;
+    background-color: var(--color-bg);
+    pointer-events: none;
 }
 
 /* Vinheta escura por cima da aurora, só pra garantir contraste do texto —
@@ -27,8 +53,11 @@
     background: radial-gradient(ellipse at center, rgba(0, 0, 0, .25), rgba(0, 0, 0, .8) 80%);
 }
 
-/* ---- Fundo "aurora": 3 manchas de luz coloridas, borradas, se movendo
-   lentamente atrás do texto. Cada <span> é um círculo com gradiente radial;
+/* ---- Fundo "aurora" (NÃO usado mais na Hero — substituído pela rede de
+   partículas fixa, .hero_particles). Deixado aqui porque os keyframes
+   auroraFloat1/2 são reaproveitados pelo fundo da seção de Contato
+   (ver .contact_aurora em style.css). 3 manchas de luz coloridas, borradas,
+   se movendo lentamente. Cada <span> é um círculo com gradiente radial;
    o filter: blur() funde as bordas, e o keyframe move/escala cada uma em
    um tempo e direção diferentes para o efeito parecer orgânico, não
    sincronizado. mix-blend-mode: screen deixa as cores se somarem onde

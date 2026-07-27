@@ -52,6 +52,11 @@
         </div>
     </div>
 
+    <!-- Fundo fixo da Hero: rede de partículas conectadas (js/particles.js).
+         Fica fora do <header>/<section> de propósito — é position:fixed no
+         viewport inteiro, então "gruda" na tela enquanto a página rola. -->
+    <canvas id="heroParticles" class="hero_particles" aria-hidden="true"></canvas>
+
     <header>
         <h1>Dev <span>Node.js</span></h1>
 
@@ -69,11 +74,6 @@
     </header>
 
     <section aria-label="seção principal de apresentação" class="hero" id="hero">
-        <div class="hero_aurora" aria-hidden="true">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
         <div class="hero_inner">
             <h1 class="hero_title">Seu negócio merece um site que realmente traz clientes</h1>
             <p class="hero_subtitle">Desenvolvo soluções web sob medida — do primeiro contato até o site no ar, cuidando de cada detalhe.</p>
@@ -253,6 +253,10 @@
     </section>
 
     <section id="contato" class="contact" aria-label="seção de contato">
+        <div class="contact_aurora" aria-hidden="true">
+            <span></span>
+            <span></span>
+        </div>
         <div class="sobre_titulo">
             <h1>Vamos Conversar</h1>
             <p>Me conta um pouco sobre seu projeto e eu te respondo rapidinho</p>
@@ -262,9 +266,14 @@
                 <span></span>
             </div>
         </div>
-        <a href="https://wa.me/5511940008552?text=Ol%C3%A1!%20Vim%20pelo%20seu%20portf%C3%B3lio%20e%20gostaria%20de%20conversar%20sobre%20um%20projeto." target="_blank" class="contact_whats_cta">
-            <i class="fa-brands fa-whatsapp"></i> Chamar no WhatsApp
-        </a>
+        <div class="contact_card" data-aos="zoom-in">
+            <i class="fa-brands fa-whatsapp contact_card_icon" aria-hidden="true"></i>
+            <h3>Fale comigo agora mesmo</h3>
+            <p>Me chama no WhatsApp, me diga seu problema que eu resolvo com uma solução definitiva.</p>
+            <a href="https://wa.me/5511940008552?text=Ol%C3%A1!%20Vim%20pelo%20seu%20portf%C3%B3lio%20e%20gostaria%20de%20conversar%20sobre%20um%20projeto." target="_blank" class="contact_whats_cta">
+                <i class="fa-brands fa-whatsapp"></i> Chamar no WhatsApp
+            </a>
+        </div>
     </section>
 
     <div class="floating_actions">
@@ -286,7 +295,6 @@
                 <li><a href="https://github.com/Wellyngton-Nascimento-Santos" target="_blank"><i class="fa-brands fa-github-alt"></a></i></li>
                 <li><a href="https://wa.me/5511940008552" target="_blank"><i class="fa-brands fa-whatsapp"></a></i></li>
                 <li><a href="https://www.instagram.com/wellyngton_dev" target="_blank"><i class="fa-brands fa-instagram"></a></i></li>
-                <li><a href="mailto:wellyngton.negocios@gmail.com" aria-label="Enviar e-mail"><i class="fa-regular fa-envelope"></i></a></li>
             </ul>
         </nav>
         <p class="footer_comercial">Todos os direitos reservados - Wellyngton Nascimento Santos &copy; - 2026</p>
@@ -294,6 +302,7 @@
 
     <script src="js/preloader.js"></script>
     <script src="js/hero.js"></script>
+    <script src="js/particles.js"></script>
     <script src="js/aos-init.js"></script>
     <script src="js/lenis-init.js"></script>
     <script src="js/tilt.js"></script>

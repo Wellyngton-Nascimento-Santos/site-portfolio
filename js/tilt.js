@@ -27,6 +27,11 @@ document.querySelectorAll('.working_card').forEach((card) => {
         const posX = (event.clientX - rect.left) / rect.width;  // 0 a 1
         const posY = (event.clientY - rect.top) / rect.height;  // 0 a 1
 
+        // Alimenta o spotlight (CSS, ver .working_card::before em style.css)
+        // com a posição do mouse dentro do card, em porcentagem.
+        card.style.setProperty('--mx', `${posX * 100}%`);
+        card.style.setProperty('--my', `${posY * 100}%`);
+
         // Mouse na metade de cima inclina o card "pra trás" (rotateX positivo);
         // mouse na metade da direita inclina "pra a direita" (rotateY positivo).
         const rotateY = (posX - 0.5) * 2 * INCLINACAO_MAXIMA;
