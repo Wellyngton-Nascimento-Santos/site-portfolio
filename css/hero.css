@@ -14,6 +14,12 @@
    o efeito de fundo fixo enquanto o site "desce" por cima. */
 .hero {
     position: relative;
+    /* isolation: isolate cria um novo contexto de empilhamento pra Hero.
+       Sem isso, o z-index dos filhos (.hero_inner, .hero::before) "vazava"
+       pro contexto raiz da página e ficava por cima até do menu mobile
+       aberto (header .navegacao-primaria.ativado) — por isso o menu
+       aparecia meio "por baixo"/transparente no celular. */
+    isolation: isolate;
     min-height: 70vh;
     display: flex;
     align-items: center;
@@ -50,7 +56,15 @@
     position: absolute;
     inset: 0;
     z-index: 1;
-    background: radial-gradient(ellipse at center, rgba(0, 0, 0, .25), rgba(0, 0, 0, .8) 80%);
+    /* Duas camadas: a primeira (linear-gradient) escurece só a faixa final
+       lá embaixo até virar --color-bg sólido (mesma cor da seção seguinte,
+       Serviços) — assim a transição de "partículas visíveis" pra "fundo
+       sólido" fica suave, em vez de parecer que o fundo sumiu de repente.
+       A segunda (radial-gradient) é a vinheta original, pra dar contraste
+       ao texto no centro. */
+    background:
+        linear-gradient(to bottom, transparent 60%, var(--color-bg) 100%),
+        radial-gradient(ellipse at center, rgba(0, 0, 0, .25), rgba(0, 0, 0, .8) 80%);
 }
 
 /* ---- Fundo "aurora" (NÃO usado mais na Hero — substituído pela rede de

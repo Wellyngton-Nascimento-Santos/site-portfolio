@@ -349,6 +349,12 @@ main .sobre {
 /* FORMAÇÃO */
 
 .my_resume {
+    /* Sem isso, essa seção fica sem fundo próprio e deixa o canvas de
+       partículas fixo (ver .hero_particles) aparecer por trás dela quando
+       ela ocupa o topo da tela — mesma cor de fundo das seções vizinhas
+       (Sobre Mim e Como Eu Trabalho) pra manter a continuidade visual. */
+    background-color: var(--color-bg-alt);
+    padding: var(--space-md) 0;
     color: var(--color-text);
 }
 
