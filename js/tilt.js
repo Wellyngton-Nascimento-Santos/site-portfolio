@@ -20,41 +20,56 @@
 
 const INCLINACAO_MAXIMA = 10; // graus — quanto maior, mais forte o tilt
 
-document.querySelectorAll('.working_card').forEach((card) => {
-    card.addEventListener('mousemove', (event) => {
-        const rect = card.getBoundingClientRect();
+// Função reaproveitável: liga o tilt 3D + spotlight em qualquer grupo de
+// cards que siga o mesmo padrão visual (.working_card, .services_card,
+// .portfolio_card). Fica global (window.aplicarTiltSpotlight) porque os
+// cards de Projetos são criados dinamicamente por js/script.js — só depois
+// que eles existem no DOM é que dá pra "ligar" o efeito neles.
+function aplicarTiltSpotlight(selector) {
+    document.querySelectorAll(selector).forEach((card) => {
+        card.addEventListener('mousemove', (event) => {
+            const rect = card.getBoundingClientRect();
 
-        const posX = (event.clientX - rect.left) / rect.width;  // 0 a 1
-        const posY = (event.clientY - rect.top) / rect.height;  // 0 a 1
+            const posX = (event.clientX - rect.left) / rect.width;  // 0 a 1
+            const posY = (event.clientY - rect.top) / rect.height;  // 0 a 1
 
-        // Alimenta o spotlight (CSS, ver .working_card::before em style.css)
-        // com a posição do mouse dentro do card, em porcentagem.
-        card.style.setProperty('--mx', `${posX * 100}%`);
-        card.style.setProperty('--my', `${posY * 100}%`);
+            // Alimenta o spotlight (CSS, ver ::before de cada card em style.css)
+            // com a posição do mouse dentro do card, em porcentagem.
+            card.style.setProperty('--mx', `${posX * 100}%`);
+            card.style.setProperty('--my', `${posY * 100}%`);
 
-        // Mouse na metade de cima inclina o card "pra trás" (rotateX positivo);
-        // mouse na metade da direita inclina "pra a direita" (rotateY positivo).
-        const rotateY = (posX - 0.5) * 2 * INCLINACAO_MAXIMA;
-        const rotateX = (posY - 0.5) * -2 * INCLINACAO_MAXIMA;
+            // Mouse na metade de cima inclina o card "pra trás" (rotateX positivo);
+            // mouse na metade da direita inclina "pra a direita" (rotateY positivo).
+            const rotateY = (posX - 0.5) * 2 * INCLINACAO_MAXIMA;
+            const rotateX = (posY - 0.5) * -2 * INCLINACAO_MAXIMA;
 
-        gsap.to(card, {
-            rotateX: rotateX,
-            rotateY: rotateY,
-            y: -6, // pequena elevação, igual aos outros cards do site
-            transformPerspective: 700,
-            duration: 0.4,
-            ease: 'power1.out'
+            gsap.to(card, {
+                rotateX: rotateX,
+                rotateY: rotateY,
+                y: -6, // pequena elevação, igual aos outros cards do site
+                transformPerspective: 700,
+                duration: 0.4,
+                ease: 'power1.out'
+            });
+        });
+
+        // Quando o mouse sai do card, volta tudo ao normal suavemente
+        card.addEventListener('mouseleave', () => {
+            gsap.to(card, {
+                rotateX: 0,
+                rotateY: 0,
+                y: 0,
+                duration: 0.5,
+                ease: 'power2.out'
+            });
         });
     });
+}
 
-    // Quando o mouse sai do card, volta tudo ao normal suavemente
-    card.addEventListener('mouseleave', () => {
-        gsap.to(card, {
-            rotateX: 0,
-            rotateY: 0,
-            y: 0,
-            duration: 0.5,
-            ease: 'power2.out'
-        });
-    });
-});
+aplicarTiltSpotlight('.working_card');
+aplicarTiltSpotlight('.services_card');
+// .portfolio_card ainda não existe nesse ponto (só é criado depois, em
+// js/script.js, via renderProjetos()) — por isso script.js chama
+// window.aplicarTiltSpotlight('.portfolio_card') de novo, na sequência,
+// assim que os cards de projeto são inseridos no DOM.
+window.aplicarTiltSpotlight = aplicarTiltSpotlight;

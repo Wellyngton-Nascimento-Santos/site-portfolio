@@ -2,13 +2,19 @@
 
 
 function menuMobol(){
-    const ativaMenu = document.querySelector('.fa-bars');
-    const navMenu = document.querySelector('header .navegacao-primaria')
+    const botaoMenu = document.querySelector('.menu_toggle');
+    const iconeMenu = botaoMenu.querySelector('i');
+    const navMenu = document.querySelector('header .navegacao-primaria');
 
-
-    ativaMenu.addEventListener('click', () => {
-        ativaMenu.classList.toggle('fa-x');
+    botaoMenu.addEventListener('click', () => {
+        iconeMenu.classList.toggle('fa-x');
         navMenu.classList.toggle('ativado');
+
+        // aria-expanded + aria-label avisam leitor de tela se o menu está
+        // aberto ou fechado — antes disso era um <i> sem nenhuma semântica.
+        const aberto = navMenu.classList.contains('ativado');
+        botaoMenu.setAttribute('aria-expanded', String(aberto));
+        botaoMenu.setAttribute('aria-label', aberto ? 'Fechar menu de navegação' : 'Abrir menu de navegação');
     })
 }
 
@@ -42,6 +48,12 @@ function renderProjetos(){
 }
 
 renderProjetos();
+
+// Os cards de projeto acabaram de ser criados agora — é só a partir daqui
+// que dá pra ligar o tilt 3D + spotlight neles (ver js/tilt.js).
+if (window.aplicarTiltSpotlight) {
+    window.aplicarTiltSpotlight('.portfolio_card');
+}
 
 
 const btn = document.getElementById("btnTop")

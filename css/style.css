@@ -114,6 +114,24 @@ header .navegacao-primaria li a:hover::after {
     border-bottom: 4px solid var(--color-accent);
 }
 
+/* Botão do menu mobile (o ícone de "hambúrguer"). Antes era só um <i>
+   solto — sem foco por teclado, sem leitor de tela conseguir anunciar o
+   que ele faz. Agora é um <button> de verdade por baixo do ícone; esse
+   reset tira a aparência padrão de botão do navegador, então visualmente
+   fica igual a antes. */
+.menu_toggle {
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: inherit;
+    font: inherit;
+}
+
 /*Seção Principal sobre mim*/
 
 main {
@@ -497,7 +515,9 @@ main .sobre {
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .working_card::after {
+    .working_card::after,
+    .services_card::after,
+    .portfolio_card::after {
         transition: none;
     }
 }
@@ -650,18 +670,58 @@ footer .footer_comercial {
 
 .portfolio_card {
     position: relative;
+    isolation: isolate;
     background-color: var(--color-surface);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-md);
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    transition: transform var(--transition-base), box-shadow var(--transition-base);
+    /* Sem "transition" pro transform aqui: o tilt 3D (js/tilt.js) usa GSAP
+       pra animar a rotação/elevação a cada movimento do mouse — mesmo
+       motivo do .working_card, ver comentário lá. */
+    transition: box-shadow var(--transition-base), border-color var(--transition-base);
 }
 
 .portfolio_card:hover {
-    transform: translateY(-6px);
-    box-shadow: var(--shadow-card);
+    border-color: var(--color-accent-cta);
+    box-shadow: var(--shadow-card), 0 0 24px rgba(var(--color-accent-cta-rgb), .25);
+}
+
+/* Spotlight que segue o cursor — mesmo esquema do .working_card::before,
+   alimentado pelas mesmas variáveis --mx/--my (ver js/tilt.js). */
+.portfolio_card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    background: radial-gradient(220px circle at var(--mx, 50%) var(--my, 50%), rgba(var(--color-accent-cta-rgb), .16), transparent 70%);
+    opacity: 0;
+    transition: opacity var(--transition-base);
+    pointer-events: none;
+}
+
+.portfolio_card:hover::before {
+    opacity: 1;
+}
+
+/* Brilho diagonal que "varre" o card no hover */
+.portfolio_card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -60%;
+    width: 40%;
+    height: 100%;
+    background: linear-gradient(115deg, transparent, rgba(255, 255, 255, .1), transparent);
+    transform: skewX(-20deg);
+    transition: left .7s ease;
+    pointer-events: none;
+    z-index: 2;
+}
+
+.portfolio_card:hover::after {
+    left: 130%;
 }
 
 .portfolio_card_badge {
@@ -765,6 +825,9 @@ footer .footer_comercial {
 }
 
 .services_card {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
     background-color: var(--color-surface);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-md);
@@ -773,17 +836,61 @@ footer .footer_comercial {
     gap: var(--space-xs);
     justify-items: start;
     text-align: left;
-    transition: transform var(--transition-base), box-shadow var(--transition-base);
+    /* Sem "transition" pro transform aqui: o tilt 3D (js/tilt.js) usa GSAP
+       pra animar a rotação/elevação a cada movimento do mouse — mesmo
+       motivo do .working_card, ver comentário lá. */
+    transition: box-shadow var(--transition-base), border-color var(--transition-base);
 }
 
 .services_card:hover {
-    transform: translateY(-6px);
-    box-shadow: var(--shadow-card);
+    border-color: var(--color-accent-cta);
+    box-shadow: var(--shadow-card), 0 0 24px rgba(var(--color-accent-cta-rgb), .25);
+}
+
+/* Spotlight que segue o cursor — mesmo esquema do .working_card::before,
+   alimentado pelas mesmas variáveis --mx/--my (ver js/tilt.js). */
+.services_card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: radial-gradient(220px circle at var(--mx, 50%) var(--my, 50%), rgba(var(--color-accent-cta-rgb), .16), transparent 70%);
+    opacity: 0;
+    transition: opacity var(--transition-base);
+    pointer-events: none;
+}
+
+.services_card:hover::before {
+    opacity: 1;
+}
+
+/* Brilho diagonal que "varre" o card no hover */
+.services_card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -60%;
+    width: 40%;
+    height: 100%;
+    background: linear-gradient(115deg, transparent, rgba(255, 255, 255, .1), transparent);
+    transform: skewX(-20deg);
+    transition: left .7s ease;
+    pointer-events: none;
+}
+
+.services_card:hover::after {
+    left: 130%;
 }
 
 .services_card i {
     font-size: 1.8rem;
     color: var(--color-accent);
+    transition: transform var(--transition-base), filter var(--transition-base);
+}
+
+.services_card:hover i {
+    transform: scale(1.25) rotate(-8deg);
+    filter: drop-shadow(0 0 10px rgba(var(--color-accent-cta-rgb), .6));
 }
 
 .services_card h3 {
