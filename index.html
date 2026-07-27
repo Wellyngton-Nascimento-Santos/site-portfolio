@@ -23,194 +23,123 @@
 
     <link rel="stylesheet" href="css/reset.css">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/preloader.css">
+    <link rel="stylesheet" href="css/hero.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- AOS (Animate On Scroll): dá fade-in nos cards conforme a página rola até eles -->
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css">
+
+    <!-- GSAP: biblioteca de animações usada no preloader e na Hero -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+
+    <!-- Lenis: biblioteca de scroll suave usada em todo o site -->
+    <script src="https://unpkg.com/lenis@1/dist/lenis.min.js"></script>
 </head>
 
 <body>
+    <!-- PRELOADER: tela de carregamento exibida antes do site aparecer.
+         O JavaScript (js/preloader.js) controla a digitação, o contador e o fade final. -->
+    <div id="preloader" class="preloader" aria-hidden="true">
+        <div class="preloader_terminal">
+            <span class="preloader_prompt">$</span>
+            <span class="preloader_line" id="preloaderLine"></span><span class="preloader_cursor">|</span>
+        </div>
+        <div class="preloader_percent" id="preloaderPercent">0%</div>
+        <div class="preloader_bar">
+            <div class="preloader_bar_fill" id="preloaderBarFill"></div>
+        </div>
+    </div>
+
     <header>
         <h1>Dev <span>Node.js</span></h1>
 
         <nav>
             <ul class="navegacao-primaria">
-                <li><a href="#sobre">Sobre</a></li>
-                <li><a href="#resumo">Experiência / Formação</a></li>
-                <li><a href="#projetos">Cursos</a></li>
-                <li><a href="#portfolio">Projetos</a></li>
                 <li><a href="#servicos">Serviços</a></li>
+                <li><a href="#portfolio">Projetos</a></li>
+                <li><a href="#sobre">Sobre</a></li>
+                <li><a href="#resumo">Formação</a></li>
+                <li><a href="#como-trabalho">Como Eu Trabalho</a></li>
                 <li><a href="#contato">Contato</a></li>
             </ul>
             <i class="fa-solid fa-bars"></i>
         </nav>
     </header>
-    <section aria-label="seção curriculo dowload Wellyngton" class="section-div">
-        <div class="section-div_inner">
-            <h2 class="seja-ben-vindo">Seja bem-vindo(a) ao meu site portfólio</h2>
-            <h2 class="digitando"> Sou Wellyngton, desenvolvedor Web Full Stack
-                Criei este site com o objetivo de me apresentar de forma criativa e profissional.
-            </h2>
-            <p>Sinta-se convidado(a) para explorar este portfólio online e conhecer melhor meu trabalho, criatividade e habilidades.
-                Estou animado em compartilhar minha jornada e espero que você aprecie o que verá aqui.</p>
-            <a href="curriculo-Wellyngton.pdf" download="curriculo-Wellyngton.pdf">Download CV</a>
+
+    <section aria-label="seção principal de apresentação" class="hero" id="hero">
+        <div class="hero_aurora" aria-hidden="true">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <div class="hero_inner">
+            <h1 class="hero_title">Seu negócio merece um site que realmente traz clientes</h1>
+            <p class="hero_subtitle">Desenvolvo soluções web sob medida — do primeiro contato até o site no ar, cuidando de cada detalhe.</p>
+            <div class="hero_actions">
+                <a href="#contato" class="hero_cta hero_cta--primary">Solicitar Orçamento</a>
+                <a href="#portfolio" class="hero_cta hero_cta--secondary">Ver Projetos</a>
+            </div>
         </div>
     </section>
-    <main>
-        <article aria-label="seção sobre mim" class="sobre">
-            <div id="sobre" class="sobre_titulo">
-                <h1>Sobre Mim</h1>
-                <p>Perfil Profissional -  Tudo sobre mim</p>
-                <div aria-label="Seção apenas de ilustração de botões">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </div>
-            </div>
-            <img src="img/imagem-sobre.jpeg" alt="imagem de uma pessoa Ilustrativa">
-            <div class="sobre_conteudo">
-                <div class="sobre_texto">
-                    <h1>Eu sou Wellyngton</h1>
-                    <p>Sou um Desenvolvedor Full Stack especializado em Node.js e tecnologias Web, com foco em criar soluções eficientes, escaláveis e com excelente experiência para o usuário. 
-                    Tenho 30 anos e, ao longo da minha trajetória, venho atuando no desenvolvimento de aplicações web e em projetos freelance, sempre buscando entregar resultados de alto impacto. 
-                    <br>Estou pronto para novos desafios e para contribuir com equipes e clientes em projetos inovadores.
-                    </p>
-                </div>
-                <div class="sobre_info">
-                    <p><a href="https://wa.me/5511940008552" target="_blank"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a></p>
-                    <p><a href="https://www.linkedin.com/in/wellyngton-nascimento-santos-44944322b/" target="_blank"><i class="fa-brands fa-linkedin"></i> Acesso ao Linkedin</a></p>
-                    <p><a href="https://github.com/Wellyngton-Nascimento-Santos" target="_blank"><i class="fa-brands fa-github"></i> Acesso ao GitHub</a></p>
-                </div>
-            </div>
-        </article>
-    </main>
 
-    <div id="resumo" class="my_resume">
+    <section id="servicos" class="services" aria-label="seção de serviços oferecidos">
         <div class="sobre_titulo">
-            <h1>Experiência / Formação</h1>
-            <p>Experiências profissionais e educação</p>
+            <h1>Serviços</h1>
+            <p>Soluções sob medida para o seu projeto</p>
             <div aria-label="Seção apenas de ilustração de botões">
                 <span></span>
                 <span></span>
                 <span></span>
             </div>
         </div>
-        <div class="resume_generico">
-            <h2 class="experience"><i class="fa-solid fa-briefcase"></i></i>Experiência</h2>
-            <div class="experience_content">
-                <div>
-                    <span>Março/2014 - Fevereiro/2022</span>
-                    <h3>Força Aérea Brasileira</h3>
-                    <p>Servi durante oito anos na Força Aérea, sendo destes, um ano de recrutamento, cinco anos de prefeitura e dois anos de hospital.
-                        <br>Onde tive oportunidade de aprender sobre hierarquia, disciplina, organização e responsabilidade.
-                    </p>
-                </div>
-                <div>
-                    <span>Agosto/2012 - Fevereiro/2014</span>
-                    <h3>Andorinha Hiper Center</h3>
-                    <p>Meu primeiro emprego, onde amadureci, aprendi sobre empatia e diversidade, além de aprender a ver a vida com outros olhos.</p>
-                </div>
-                <ul>
-                    <li><i class="fa-solid fa-circle-chevron-left"></i></li>
-                    <li><i class="fa-solid fa-circle-chevron-right"></i></li>
-                </ul>
+        <div class="services_grid">
+            <!-- data-aos="fade-up": some de baixo pra cima ao entrar na tela.
+                 data-aos-delay escalonado dá o efeito de cascata entre os cards. -->
+            <div class="services_card" data-aos="fade-up" data-aos-delay="0">
+                <i class="fa-solid fa-rocket"></i>
+                <h3>Landing Pages</h3>
+                <p>Página única, otimizada para conversão e velocidade de carregamento.</p>
+                <span class="services_price">A partir de R$ 600</span>
+                <a href="#contato" class="services_cta">Solicitar orçamento</a>
             </div>
-            <h2 class="education"><i class="fa-solid fa-book"></i>Educação</h2>
-            <div class="education_content">
-                <div>
-                    <span>Janeiro/2024 - Cursando</span>
-                    <h3>Engenharia de Software - Universidade Estácio</h3>
-                    <p>Em fevereiro de 2024, iniciei minha graduação em Engenharia de Software, explorando disciplinas como, 
-                        Introdução à Segurança da Informação, Paradigmas de Linguagens de Programação, 
-                        Pensamento Computacional entre outas. </p>
-                </div>
-                <div>
-                    <span>Julho/2016 - Dezembro/2017</span>
-                    <h3>Técnico de Informática - ETEC Albert Einsteins</h3>
-                    <p>Neste curso tive a oportunidade de aprender disciplinas como Desenvolvimento de Software,
-                         Segurança Digital, Banco de Dados, Análise de Sistemas, Inglês Instrumental, 
-                         Instalação e Manutenção de Computadores entre outras.</p>
-                </div>
-                <ul>
-                    <li><i class="fa-solid fa-circle-chevron-left"></i></li>
-                    <li><i class="fa-solid fa-circle-chevron-right"></i></li>
-                </ul>
+            <div class="services_card" data-aos="fade-up" data-aos-delay="100">
+                <i class="fa-solid fa-building"></i>
+                <h3>Sites Institucionais</h3>
+                <p>Presença online completa para apresentar sua empresa e serviços.</p>
+                <span class="services_price">A partir de R$ 1.500</span>
+                <a href="#contato" class="services_cta">Solicitar orçamento</a>
             </div>
-        </div>
-        <div class="cursos">
-            <div class="my_skill">
-                <h2><i class="fa-sharp fa-regular fa-star"></i>Habilidades</h2>
-                <div class="skill_content">
-                    <h3>HTML 5</h3>
-                    <ul>
-                        <li><i class="fa-sharp fa-solid fa-star"></i></li>
-                        <li><i class="fa-sharp fa-solid fa-star"></i></li>
-                        <li><i class="fa-sharp fa-solid fa-star"></i></li>
-                        <li><i class="fa-sharp fa-solid fa-star"></i></li>
-                        <li><i class="fa-regular fa-star"></i></li>
-                    </ul>
-                </div>
-                <div class="skill_content">
-                    <h3>CSS 3</h3>
-                    <ul>
-                        <li><i class="fa-sharp fa-solid fa-star"></i></li>
-                        <li><i class="fa-sharp fa-solid fa-star"></i></li>
-                        <li><i class="fa-sharp fa-solid fa-star"></i></li>
-                        <li><i class="fa-sharp fa-solid fa-star"></i></li>
-                        <li><i class="fa-regular fa-star"></i></li>
-                    </ul>
-                </div>
-                <div class="skill_content">
-                    <h3>JAVASCRIPT</h3>
-                    <ul>
-                        <li><i class="fa-sharp fa-solid fa-star"></i></li>
-                        <li><i class="fa-sharp fa-solid fa-star"></i></li>
-                        <li><i class="fa-sharp fa-solid fa-star"></i></li>
-                        <li><i class="fa-regular fa-star-half-stroke"></i></li>
-                        <li><i class="fa-regular fa-star"></i></li>
-                    </ul>
-                </div>
-                <div class="skill_content">
-                    <h3>REACT</h3>
-                    <ul>
-                        <li><i class="fa-sharp fa-solid fa-star"></i></li>
-                        <li><i class="fa-sharp fa-solid fa-star"></i></li>
-                        <li><i class="fa-sharp fa-solid fa-star"></i></li>
-                        <li><i class="fa-regular fa-star"></i></li>
-                        <li><i class="fa-regular fa-star"></i></li>
-                    </ul>
-                </div>
+            <div class="services_card" data-aos="fade-up" data-aos-delay="200">
+                <i class="fa-solid fa-calendar-check"></i>
+                <h3>Sistemas de Agendamento</h3>
+                <p>Plataforma para seus clientes agendarem horários com você online.</p>
+                <span class="services_price">A partir de R$ 2.000</span>
+                <a href="#contato" class="services_cta">Solicitar orçamento</a>
+            </div>
+            <div class="services_card" data-aos="fade-up" data-aos-delay="300">
+                <i class="fa-solid fa-wand-magic-sparkles"></i>
+                <h3>Landing Page Premium</h3>
+                <p>A mesma proposta da Landing Page, com animações e efeitos visuais modernos que destacam sua marca e impressionam desde o primeiro scroll.</p>
+                <span class="services_price">A partir de R$ 1.100</span>
+                <a href="#contato" class="services_cta">Solicitar orçamento</a>
+            </div>
+            <div class="services_card" data-aos="fade-up" data-aos-delay="400">
+                <i class="fa-solid fa-gem"></i>
+                <h3>Site Institucional Premium</h3>
+                <p>Presença online completa, com experiência visual premium: animações fluidas, transições suaves e um site que se destaca da concorrência.</p>
+                <span class="services_price">A partir de R$ 2.200</span>
+                <a href="#contato" class="services_cta">Solicitar orçamento</a>
+            </div>
+            <div class="services_card" data-aos="fade-up" data-aos-delay="500">
+                <i class="fa-solid fa-arrows-rotate"></i>
+                <h3>Redesign de Site Existente</h3>
+                <p>Já tem site, mas ele parece antigo ou não converte? Modernizo o visual e a experiência do seu site atual, sem perder o que já funciona.</p>
+                <span class="services_price">A partir de R$ 1.500</span>
+                <a href="#contato" class="services_cta">Solicitar orçamento</a>
             </div>
         </div>
-    </div>
-
-
-    <section id="projetos" class="projects">
-        <div class="sobre_titulo">
-            <h1>Cursos Complementares</h1>
-            <p>Veja a seguir alguns de meus cursos</p>
-            <div aria-label="Seção apenas de ilustração de botões">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-        </div>
-        <div class="projects_models">
-            <ul arial-label="Navegação entre modelos expecíficos de projetos">
-               <!-- <li class="todos">Todos</li> -->
-                <li class="andamento">Profissionalizante</li>
-                <li class="finalizados">Extracurricular</li>
-            </ul>
-        </div>
-        <div class="projects_armazenamento">
-            <ul aria-label="Navegação de Projetos e websites">
-                <li id="andamento"><img src="img-projects/desenvolvimentoWebFullStack.jpg" ></li> <!-- *colocar esse codigo logo após o nome da imagem para poder clicar onclick="openDonadella(urlDonadella)" alt="Repositorio da Donadella" -->
-                <li id="finalizados"><img src="img-projects/computacaoEmNuvemAWS.jpg"></li> <!--onclick="openPizzaria(urlPizzaria)" alt="Novidade em Breve" -->
-                <li id="finalizados"><img src="img-projects/capacitacaoComputacaoEmNuvem.jpg"></li> <!--onclick="openLogin(urlLogin)" alt="Novidade em Breve"-->
-                <li id="finalizados"><img src="img-projects/logicaDeProgramacao.jpg"></li>  <!--onclick="openCadastro(urlCadastro)" alt="Novidade em Breve"-->
-                <li id="finalizados"><img src="img-projects/javaScriptFront.jpg"></li>  <!--onclick="openFormulario(urlFormulario)" alt="Novidade em Breve"-->
-                <li id="finalizados"><img src="img-projects/htmlAvancado.jpg"></li>  <!--onclick="openDashboard(urlDashboard)" alt="Novidade em Breve"-->
-                <li id="finalizados"><img src="img-projects/siteSimpleHTMLCSSJavaScript.jpg"></li>  <!--onclick="openFlexbox1(urlFlexbox1)" alt="Novidade em Breve"-->
-            </ul>
-        </div>
-      <!--  <a href="https://github.com/Wellyngton-Nascimento-Santos?tab=repositories" target="_blank">Mais</a> -->
     </section>
 
     <section id="portfolio" class="portfolio" aria-label="seção de projetos e portfólio">
@@ -226,37 +155,99 @@
         <div class="portfolio_grid" id="portfolioGrid"></div>
     </section>
 
-    <section id="servicos" class="services" aria-label="seção de serviços oferecidos">
+    <main>
+        <article aria-label="seção sobre mim" class="sobre">
+            <div id="sobre" class="sobre_titulo">
+                <h1>Sobre Mim</h1>
+                <p>Perfil Profissional -  Tudo sobre mim</p>
+                <div aria-label="Seção apenas de ilustração de botões">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+            <div class="sobre_foto">
+                <img src="img/imagem-sobre.jpeg" alt="imagem de uma pessoa Ilustrativa">
+            </div>
+            <div class="sobre_conteudo">
+                <div class="sobre_texto">
+                    <h1>Eu sou Wellyngton</h1>
+                    <p>Minha trajetória como desenvolvedor Full Stack começou de um jeito nada convencional: enquanto buscava uma nova direção profissional, comecei a estudar programação por conta própria e a criar meus primeiros projetos — cada entrega me ensinando um pouco mais sobre como transformar ideias em sites que realmente funcionam para quem os contrata. Hoje, esse aprendizado contínuo segue guiando cada projeto que assumo.</p>
+                </div>
+                <div class="sobre_info">
+                    <p><a href="https://wa.me/5511940008552" target="_blank"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a></p>
+                    <p><a href="https://www.linkedin.com/in/wellyngton-nascimento-santos-44944322b/" target="_blank"><i class="fa-brands fa-linkedin"></i> Acesso ao Linkedin</a></p>
+                    <p><a href="https://github.com/Wellyngton-Nascimento-Santos" target="_blank"><i class="fa-brands fa-github"></i> Acesso ao GitHub</a></p>
+                    <p><a href="https://www.instagram.com/wellyngton_dev" target="_blank"><i class="fa-brands fa-instagram"></i> Acesso ao Instagram</a></p>
+                </div>
+            </div>
+        </article>
+    </main>
+
+    <div id="resumo" class="my_resume">
         <div class="sobre_titulo">
-            <h1>Serviços</h1>
-            <p>Soluções sob medida para o seu projeto</p>
+            <h1>Formação</h1>
+            <p>Minha jornada acadêmica e técnica</p>
             <div aria-label="Seção apenas de ilustração de botões">
                 <span></span>
                 <span></span>
                 <span></span>
             </div>
         </div>
-        <div class="services_grid">
-            <div class="services_card">
-                <i class="fa-solid fa-rocket"></i>
-                <h3>Landing Pages</h3>
-                <p>Página única, otimizada para conversão e velocidade de carregamento.</p>
-                <span class="services_price">A partir de R$ 600</span>
-                <a href="#contato" class="services_cta">Solicitar orçamento</a>
+        <div class="formacao_grid">
+            <div class="formacao_card" data-aos="fade-up" data-aos-delay="0">
+                <i class="fa-solid fa-graduation-cap"></i>
+                <h3>Engenharia de Software — Universidade Estácio</h3>
+                <p>Cursando desde 2024, com foco em Segurança da Informação, Paradigmas de Linguagens de Programação e Pensamento Computacional.</p>
             </div>
-            <div class="services_card">
-                <i class="fa-solid fa-building"></i>
-                <h3>Sites Institucionais</h3>
-                <p>Presença online completa para apresentar sua empresa e serviços.</p>
-                <span class="services_price">A partir de R$ 1.500</span>
-                <a href="#contato" class="services_cta">Solicitar orçamento</a>
+            <div class="formacao_card" data-aos="fade-up" data-aos-delay="150">
+                <i class="fa-solid fa-code"></i>
+                <h3>Desenvolvimento Web Full Stack</h3>
+                <p>Formação técnica completa em desenvolvimento web, da lógica de programação ao deploy de aplicações.</p>
             </div>
-            <div class="services_card">
-                <i class="fa-solid fa-calendar-check"></i>
-                <h3>Sistemas de Agendamento</h3>
-                <p>Plataforma para seus clientes agendarem horários com você online.</p>
-                <span class="services_price">A partir de R$ 2.000</span>
-                <a href="#contato" class="services_cta">Solicitar orçamento</a>
+        </div>
+    </div>
+
+    <section id="como-trabalho" class="working" aria-label="seção como eu trabalho">
+        <div class="sobre_titulo">
+            <h1>Como Eu Trabalho</h1>
+            <p>O que toda entrega minha inclui</p>
+            <div aria-label="Seção apenas de ilustração de botões">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        <div class="working_grid">
+            <div class="working_card" data-aos="fade-up" data-aos-delay="0">
+                <span class="working_icon" aria-hidden="true">🎨</span>
+                <h3>Design responsivo</h3>
+                <p>Seu site funciona perfeito no celular, tablet e computador</p>
+            </div>
+            <div class="working_card" data-aos="fade-up" data-aos-delay="100">
+                <span class="working_icon" aria-hidden="true">⚡</span>
+                <h3>Performance</h3>
+                <p>Carregamento rápido, sem enrolação pro seu cliente</p>
+            </div>
+            <div class="working_card" data-aos="fade-up" data-aos-delay="200">
+                <span class="working_icon" aria-hidden="true">🔍</span>
+                <h3>SEO otimizado</h3>
+                <p>Configurado pra aparecer melhor no Google</p>
+            </div>
+            <div class="working_card" data-aos="fade-up" data-aos-delay="300">
+                <span class="working_icon" aria-hidden="true">🔒</span>
+                <h3>Site seguro</h3>
+                <p>Certificado SSL e boas práticas de segurança inclusos</p>
+            </div>
+            <div class="working_card" data-aos="fade-up" data-aos-delay="400">
+                <span class="working_icon" aria-hidden="true">📱</span>
+                <h3>Integração com WhatsApp</h3>
+                <p>Contato direto e fácil pros seus clientes</p>
+            </div>
+            <div class="working_card" data-aos="fade-up" data-aos-delay="500">
+                <span class="working_icon" aria-hidden="true">🔄</span>
+                <h3>Suporte contínuo</h3>
+                <p>Não desapareço depois da entrega</p>
             </div>
         </div>
     </section>
@@ -264,24 +255,16 @@
     <section id="contato" class="contact" aria-label="seção de contato">
         <div class="sobre_titulo">
             <h1>Vamos Conversar</h1>
-            <p>Envie uma mensagem, respondo pelo WhatsApp</p>
+            <p>Me conta um pouco sobre seu projeto e eu te respondo rapidinho</p>
             <div aria-label="Seção apenas de ilustração de botões">
                 <span></span>
                 <span></span>
                 <span></span>
             </div>
         </div>
-        <form class="contact_form" id="contactForm">
-            <label for="contactName">Nome</label>
-            <input type="text" id="contactName" name="nome" required placeholder="Seu nome">
-            <label for="contactPhone">WhatsApp ou e-mail</label>
-            <input type="text" id="contactPhone" name="contato" required placeholder="Como posso te responder?">
-            <label for="contactMessage">Mensagem</label>
-            <textarea id="contactMessage" name="mensagem" required placeholder="Conte um pouco sobre seu projeto..."></textarea>
-            <button type="submit" class="contact_submit">
-                <i class="fa-brands fa-whatsapp"></i> Enviar via WhatsApp
-            </button>
-        </form>
+        <a href="https://wa.me/5511940008552?text=Ol%C3%A1!%20Vim%20pelo%20seu%20portf%C3%B3lio%20e%20gostaria%20de%20conversar%20sobre%20um%20projeto." target="_blank" class="contact_whats_cta">
+            <i class="fa-brands fa-whatsapp"></i> Chamar no WhatsApp
+        </a>
     </section>
 
     <div class="floating_actions">
@@ -309,6 +292,11 @@
         <p class="footer_comercial">Todos os direitos reservados - Wellyngton Nascimento Santos &copy; - 2026</p>
     </footer>
 
+    <script src="js/preloader.js"></script>
+    <script src="js/hero.js"></script>
+    <script src="js/aos-init.js"></script>
+    <script src="js/lenis-init.js"></script>
+    <script src="js/tilt.js"></script>
     <script src="js/projetos-data.js"></script>
     <script src="js/script.js"></script>
     <script>function loadScript(a){var b=document.getElementsByTagName("head")[0],c=document.createElement("script");c.type="text/javascript",c.src="https://tracker.metricool.com/resources/be.js",c.onreadystatechange=a,c.onload=a,b.appendChild(c)}loadScript(function(){beTracker.t({hash:"b2b70e7c415db18aa6ee5e2afc0794dd"})});</script>

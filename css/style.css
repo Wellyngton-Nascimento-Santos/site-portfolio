@@ -11,6 +11,14 @@
     --color-border: #333;
     --color-accent: #2a58d6;
     --color-accent-hover: #3f6eed;
+    /* Cor de destaque (accent) mais vibrante, usada só nos botões de CTA
+       (ex.: "Solicitar Orçamento"), pra chamar mais atenção que o azul padrão */
+    --color-accent-cta: #00d9ff;
+    --color-accent-cta-hover: #33e0ff;
+    --color-accent-cta-text: #04141a;
+    /* Mesma cor do accent-cta, em "r, g, b" separado por vírgula — formato
+       exigido pra poder usar dentro de rgba() e controlar a opacidade do brilho */
+    --color-accent-cta-rgb: 0, 217, 255;
     --color-whatsapp: #25D366;
     --color-text: #f7f7f7;
     --color-text-muted: #707070;
@@ -41,7 +49,6 @@
     box-sizing: border-box;
     list-style: none;
     text-decoration: none;
-    scroll-behavior: smooth;
 }
 
 body {
@@ -107,109 +114,6 @@ header .navegacao-primaria li a:hover::after {
     border-bottom: 4px solid var(--color-accent);
 }
 
-/* DOWNLOAD CV SECAO (HERO) */
-
-.section-div {
-    position: relative;
-    animation: inicializar .7s forwards;
-    background-color: var(--color-bg);
-    background-image: url(../img/inicio-portfolio.jpg);
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    min-height: 70vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 60px 40px;
-}
-
-.section-div::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background-color: rgba(0, 0, 0, .35);
-}
-
-.section-div_inner {
-    position: relative;
-    z-index: 1;
-    max-width: 700px;
-    display: grid;
-    justify-items: center;
-    gap: 24px;
-    text-align: center;
-}
-
-.section-div_inner h2 {
-    font-family: 'Poppins';
-    font-weight: 600;
-    color: var(--color-text);
-    font-size: 26px;
-    letter-spacing: 0px;
-    line-height: 1.3;
-}
-
-.section-div_inner p {
-    font-family: 'Poppins';
-    font-weight: 200;
-    color: var(--color-text);
-    font-size: 16px;
-    letter-spacing: 0px;
-    line-height: 1.5;
-}
-
-.section-div_inner a {
-    color: var(--color-text);
-    padding: 15px 40px;
-    border-radius: 5px;
-    border: 2px solid white;
-}
-
-@media (min-width: 993px) {
-    .section-div {
-        min-height: 75vh;
-    }
-
-    .section-div_inner h2 {
-        font-size: 36px;
-    }
-
-    .section-div_inner p {
-        font-size: 18px;
-    }
-}
-
-.digitando::after{
-    content: '|';
-    margin-left: 5px;
-    opacity: 1;
-    animation: pisca .9s infinite;
-}
-
-@keyframes pisca {
-    from {
-        opacity: 1;
-    }
-
-    to {
-        opacity: 0;
-    }
-}
-
-@keyframes inicializar {
-    from {
-        opacity: 0;
-        transform: translate3d(0, -60px, 0);
-    }
-
-    to {
-        opacity: 1;
-        transform: translate3d(0, 0, 0);
-    }
-}
-
-
 /*Seção Principal sobre mim*/
 
 main {
@@ -265,19 +169,41 @@ main .sobre {
     background-color: var(--color-accent);
 }
 
-.sobre img {
+.sobre_foto {
+    position: relative;
     animation: ladoSecao .5s ease-in-out forwards;
     cursor: pointer;
     grid-row: 2;
     max-width: 100%;
     border-radius: 4px;
-    filter: blur(0);
-    justify-items: start;
+    overflow: hidden;
 }
 
-.sobre img:hover{
+.sobre_foto img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: blur(0);
     transition: .5s ease-in;
+}
+
+.sobre_foto:hover img {
     filter: blur(1px);
+}
+
+/* Duotone: a foto original tem um fundo esverdeado que destoa da paleta.
+   Por cima dela, esse gradiente azul/ciano é "misturado" com
+   mix-blend-mode: color — ele tinge os tons de cinza/verde da imagem com
+   as cores do site, sem esconder os detalhes (luz e sombra) da foto. */
+.sobre_foto::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(160deg, #1c3f7a 0%, #1f7a99 100%);
+    mix-blend-mode: color;
+    opacity: .4;
+    pointer-events: none;
 }
 
 .sobre_conteudo {
@@ -399,7 +325,7 @@ main .sobre {
 }
 
 @media (max-width: 992px) {
-    .sobre img {
+    .sobre_foto {
         grid-column: 1/-1;
         justify-self: center;
     }
@@ -420,422 +346,114 @@ main .sobre {
 
 }
 
-/* EXPERIENCIAS */
+/* FORMAÇÃO */
 
 .my_resume {
-    color: white;
+    color: var(--color-text);
 }
 
-.resume_generico {
-    padding: 30px;
+.formacao_grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    justify-content: center;
-    gap: 10px;
-    align-items: start;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-md);
+    max-width: 900px;
+    margin: 0 auto;
+    width: 100%;
+    padding: 0 var(--space-md) var(--space-md);
 }
 
-.resume_generico h2 {
-    font-family: 'Poppins';
-    font-size: 1.5rem;
-    background-color: var(--color-accent);
-    justify-self: start;
-    padding: 10px;
-    border-radius: 3px;
-}
-
-.resume_generico h2 i {
-    margin-right: 10px;
-}
-
-.experience {
-    margin-bottom: 30px;
-    grid-column: 1;
-    grid-row: 1;
-}
-
-.education {
-    margin-bottom: 30px;
-    grid-column: 2;
-    grid-row: 1;
-}
-
-
-/*Minhas Experiências*/
-
-.experience_content ul {
-    color: var(--color-accent);
-    gap: 10px;
-    display: flex;
-    cursor: pointer;
-    margin-top: 20px;
-    justify-content: center;
-}
-
-.resume_generico .experience_content div {
-    background-color: var(--color-surface);
-    animation: ladoSecao .5s ease-in-out forwards;
-    display: none;
-    padding: 40px;
-    position: relative;
-}
-
-.resume_generico .experience_content div.ativo{
-    display: block;
-}
-
-.resume_generico .experience_content div::before {
-    content: '';
-    border-right: 30px solid transparent;
-    border-bottom: 30px solid var(--color-surface);
-    position: absolute;
-    top: -20px;
-    left: 30px;
-    display: inline-block;
-}
-
-.resume_generico .experience_content div span {
-    color: var(--color-accent);
-    font-family: 'Poppins';
-    font-weight: bold;
-}
-
-.resume_generico .experience_content div h3 {
-    font-family: 'Poppins';
-    margin: 10px 0;
-}
-
-.resume_generico .experience_content div p {
-    color: var(--color-text-muted);
-    font-size: 1.1rem;
-}
-
-.experience_content ul li.ativo {
-    color: var(--color-surface-hover);
-}
-
-
-/*MEUS DIPLOMAS E CURSOS*/
-
-
-.resume_generico .education_content div {
-    background-color: var(--color-surface);
-    padding: 40px;
-    display: none;
-    animation: ladoSecao .5s ease-in-out forwards;
-    position: relative;
-}
-
-.resume_generico .education_content div.ativo{
-    display: block;
-}
-
-.education_content ul {
-    color: var(--color-accent);
-    gap: 10px;
-    display: flex;
-    cursor: pointer;
-    margin-top: 20px;
-    justify-content: center;
-}
-
-.resume_generico .education_content div::before {
-    content: '';
-    border-right: 30px solid transparent;
-    border-bottom: 30px solid var(--color-surface);
-    position: absolute;
-    top: -20px;
-    left: 30px;
-    display: inline-block;
-}
-
-.resume_generico .education_content div span {
-    color: var(--color-accent);
-    font-family: 'Poppins';
-    font-weight: bold;
-}
-
-.resume_generico .education_content div h3 {
-    font-family: 'Poppins';
-    margin: 10px 0;
-}
-
-.resume_generico .education_content div p {
-    color: var(--color-text-muted);
-    font-size: 1.1rem;
-}
-
-.education_content ul li.ativo {
-    color: var(--color-surface-hover);
-}
-
-
-/*HABILIDADES*/
-
-.cursos {
-    margin-top: 30px;
-    display: flex;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    align-items: center;
-    padding: 30px;
-    gap: 30px;
-    justify-content: center;
-}
-
-.my_skill {
-    display: grid;
-}
-
-.my_skill h2 {
-    padding: 10px 30px;
-    border-radius: 3px;
-    background-color: var(--color-accent);
-    font-size: 1.5rem;
-    font-family: 'Poppins';
-    margin-bottom: 30px;
-    justify-self: center;
-    font-weight: bold;
-}
-
-.my_skill h2 i {
-    padding-right: 10px;
-}
-
-.skill_content {
-    font-size: 1.5rem;
-    grid-column: 1/2;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 40px;
-    margin-top: 10px;
-
-}
-
-.skill_content {
-    font-size: 1.5rem;
-    font-weight: bold;
-}
-
-.skill_content ul {
-    display: flex;
-}
-
-/*CURIOSIDADES*/
-
-.curiosidades {
-    grid-column: 3/-1;
-    grid-row: 1;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-}
-
-.curiosidades h2 {
-    grid-column: 1/-1;
-    padding: 10px 30px;
-    border-radius: 3px;
-    font-size: 1.5rem;
-    font-family: 'Poppins';
-    background-color: var(--color-accent);
-    margin-bottom: 30px;
-    justify-self: start;
-}
-
-.curiosidades h2 i {
-    padding-right: 10px;
-}
-
-.curiosidades ul {
-    display: grid;
-    grid-template-columns: 1fr 1fr ;
-    gap: 30px;
-}
-
-.curiosidades ul li {
-    background-color: var(--color-surface);
-    border: 3px solid #2f2b2b;
-    display: grid;
-    grid-template-columns: auto 1fr;
-    align-self: start;
-    width: 200px;
-    height: 100px;
-}
-
-.curiosidades ul li i {
-    grid-row: 1/3;
-    margin: auto;
-    padding: 20px;
-    font-size: 2rem;
-    color: var(--color-accent);
-    border-right: 2px solid var(--color-surface-hover);
-}
-
-.curiosidades ul li span {
-    font-size: 1.5rem;
-    color: white;
-    font-family: 'Poppins';
-    font-weight: bold;
-    padding-top: 10px;
-    padding-left: 10px;
-    justify-self: start;
-}
-
-.curiosidades ul li p {
-    padding-left: 10px;
-    color: var(--color-text-muted);
-    font-weight: bold;
-    font-family: 'Poppins';
-}
-
-@media (max-width: 992px) {
-    .resume_generico .experience_content,
-    .education_content {
-        justify-self: center;
-        grid-column: 1/-1;
-    }
-
-    .resume_generico .education {
-        grid-column: 1/-1;
-        grid-row: 3;
-        justify-self: center;
-        margin: 30px 0;
-    }
-
-    .resume_generico .experience {
-        grid-column: 1/-1;
-        grid-row: 1;
-        justify-self: center;
-    }
-
-    .cursos {
-        grid-template-columns: 1fr;
-    }
-
-    .cursos .curiosidades h2 {
-        justify-self: center;
-    }
-
-    .cursos .curiosidades {
-        margin-bottom: 30px;
-        text-align: center;
-        grid-template-columns: 1fr;
-        justify-self: center;
-        grid-column: 1;
-    }
-
-    .cursos .my_skill h2 {
-        justify-self: center;
-    }
-
-    .cursos .my_skill {
-        text-align: center;
-        grid-template-columns: 1fr;
-        justify-self: center;
-        grid-column: 1;
-    }
-
-    .resume_generico .experience_content div::before {
-        left: 250px;
-    }
-    .resume_generico .education_content div::before {
-        left: 250px;
-    }
-}
-
-.projects {
-    padding: 30px;
-    display: grid;
-    justify-content: center;
-    gap: 30px;
-    background-color: var(--color-bg-soft);
-}
-
-.projects ul {
-    display: flex;
-    justify-content: center;
-    gap: 30px;
-}
-
-.projects_models ul li {
-    cursor: pointer;
-    font-family: 'Poppins';
+.formacao_card {
     background-color: var(--color-surface);
     border: 1px solid var(--color-border);
-    padding: 5px 10px;
-    color: var(--color-text-muted);
-}
-
-.projects_models ul li.ativo {
-    background-color: var(--color-accent);
-    color: var(--color-bg-soft);
-    font-weight: bold;
-    font-family: 'Poppins';
-}
-
-.projects_armazenamento ul {
+    border-radius: var(--radius-md);
+    padding: var(--space-md);
     display: grid;
-    margin-top: 20px;
-    gap: 20px;
-    justify-content: center;
-    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-xs);
+    justify-items: start;
+    text-align: left;
+    transition: transform var(--transition-base), box-shadow var(--transition-base), border-color var(--transition-base);
 }
 
-.projects_armazenamento ul li {
-    display: none;
-    max-width: 100%;
-    height: 100%;
+/* Eleva o card (translateY) e acende um brilho ciano sutil na borda —
+   o box-shadow normal do site continua, e um segundo box-shadow (mais
+   espalhado e colorido) é somado por cima pra criar o efeito de "glow". */
+.formacao_card:hover {
+    transform: translateY(-6px);
+    border-color: var(--color-accent-cta);
+    box-shadow: var(--shadow-card), 0 0 24px rgba(var(--color-accent-cta-rgb), .35);
 }
 
-
-
-.projects_armazenamento ul a li  {
-    text-decoration: none;
-    display: none;
+.formacao_card i {
+    font-size: 1.8rem;
+    color: var(--color-accent);
 }
 
-.projects_armazenamento ul li.ativo {
-    display: block;
-    animation: animationImagemButton 2s ease-in-out forwards;
+.formacao_card h3 {
+    color: var(--color-text);
+    font-family: 'Poppins';
+    font-size: 1.2rem;
+    line-height: 1.4;
 }
 
-.projects_armazenamento ul li img {
-    max-width: 100%;
-    height: 100%;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-.projects a {
-    background-color: var(--color-surface);
-    text-decoration: none;
-    justify-self: center;
-    padding: 10px 20px;
-    border: 1px solid var(--color-border);
+.formacao_card p {
     color: var(--color-text-muted);
-}
-
-@keyframes animationImagemButton {
-    0% {
-        opacity: 0;
-        transform: translate3d(0, -20px, 0);
-    }
-
-    100% {
-        opacity: 1;
-        transform: translate3d(0, 0, 0);
-    }
+    font-size: .95rem;
+    line-height: 1.5;
 }
 
 
-@media (max-width: 992px) {
-    .projects .projects_models,
-    .projects_armazenamento {
-        justify-self: center;
-        grid-column: 1/-1;
-    }
+/* COMO EU TRABALHO */
 
+.working {
+    padding: var(--space-md);
+    color: var(--color-text);
+    background-color: var(--color-bg-alt);
 }
 
+.working_grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: var(--space-md);
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+}
 
+.working_card {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: var(--space-md);
+    display: grid;
+    gap: var(--space-xs);
+    justify-items: start;
+    text-align: left;
+    /* Sem "transition" pro transform aqui: o tilt 3D (js/tilt.js) usa GSAP
+       pra animar a rotação a cada movimento do mouse, e uma transition CSS
+       concorrendo com isso deixaria o efeito com atraso/engasgado. */
+    transition: box-shadow var(--transition-base);
+}
+
+.working_card:hover {
+    box-shadow: var(--shadow-card);
+}
+
+.working_icon {
+    font-size: 1.8rem;
+    line-height: 1;
+}
+
+.working_card h3 {
+    color: var(--color-text);
+    font-family: 'Poppins';
+    font-size: 1.2rem;
+}
+
+.working_card p {
+    color: var(--color-text-muted);
+    font-size: .95rem;
+    line-height: 1.5;
+}
 
 /* FOOTER */
 footer {
@@ -1131,14 +749,16 @@ footer .footer_comercial {
 .services_cta {
     margin-top: var(--space-xs);
     padding: 10px 20px;
-    border: 1px solid var(--color-accent);
+    border: 1px solid var(--color-accent-cta);
     border-radius: var(--radius-sm);
-    color: var(--color-text);
-    transition: background-color var(--transition-fast), transform var(--transition-fast);
+    color: var(--color-accent-cta);
+    font-weight: 600;
+    transition: background-color var(--transition-fast), color var(--transition-fast), transform var(--transition-fast);
 }
 
 .services_cta:hover {
-    background-color: var(--color-accent);
+    background-color: var(--color-accent-cta);
+    color: var(--color-accent-cta-text);
     transform: translateY(-2px);
 }
 
@@ -1153,77 +773,39 @@ footer .footer_comercial {
     background-color: var(--color-bg-alt);
 }
 
-.contact_form {
-    max-width: 600px;
-    width: 100%;
-    margin: 0 auto;
-    display: grid;
-    gap: var(--space-xs);
-}
-
-.contact_form label {
-    color: var(--color-text-muted);
-    font-size: .9rem;
-    margin-top: var(--space-xs);
-}
-
-.contact_form input,
-.contact_form textarea {
-    background-color: var(--color-surface);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-sm);
-    padding: 12px 15px;
-    color: var(--color-text);
-    font-family: 'Poppins';
-    font-size: 1rem;
-    transition: border-color var(--transition-fast);
-}
-
-.contact_form input:focus,
-.contact_form textarea:focus {
-    outline: none;
-    border-color: var(--color-accent);
-}
-
-.contact_form textarea {
-    min-height: 140px;
-    resize: vertical;
-}
-
-.contact_submit {
-    margin-top: var(--space-sm);
-    justify-self: start;
-    padding: 12px 30px;
-    border-radius: var(--radius-sm);
+.contact_whats_cta {
+    justify-self: center;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 20px 48px;
+    border-radius: var(--radius-md);
     background-color: var(--color-whatsapp);
     color: #fff;
     font-weight: bold;
     font-family: 'Poppins';
+    font-size: 1.2rem;
     cursor: pointer;
-    transition: transform var(--transition-fast), background-color var(--transition-fast);
+    transition: transform var(--transition-fast), background-color var(--transition-fast), box-shadow var(--transition-fast);
 }
 
-.contact_submit:hover {
-    transform: translateY(-2px);
+.contact_whats_cta i {
+    font-size: 1.6rem;
+}
+
+.contact_whats_cta:hover {
+    transform: translateY(-3px);
     background-color: #1fb855;
+    box-shadow: var(--shadow-card);
 }
 
 
 /* RESPONSIVO - TABLET */
 
 @media (max-width: 768px) {
-    .projects_armazenamento ul {
-        grid-template-columns: repeat(3, 1fr);
-    }
-
     .portfolio_grid,
     .services_grid {
         gap: var(--space-sm);
-    }
-
-    .contact_form {
-        max-width: 100%;
-        padding: 0 20px;
     }
 
     header .navegacao-primaria.ativado {
@@ -1238,18 +820,6 @@ footer .footer_comercial {
     .portfolio_grid,
     .services_grid {
         grid-template-columns: 1fr;
-    }
-
-    .projects_armazenamento ul {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .section-div {
-        padding: 30px 20px;
-    }
-
-    .section-div_inner h2 {
-        font-size: 20px;
     }
 
     header {
@@ -1280,5 +850,13 @@ footer .footer_comercial {
     header .navegacao-primaria.ativado {
         font-size: 1.2rem;
         padding: 20px;
+    }
+
+    .contact_whats_cta {
+        width: 100%;
+        padding: 18px 24px;
+        font-size: 1.05rem;
+        text-align: center;
+        justify-content: center;
     }
 }

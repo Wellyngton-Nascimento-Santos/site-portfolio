@@ -1,0 +1,203 @@
+/* ==========================================================================
+   HERO
+   Seção de abertura do site, exibida assim que o preloader termina.
+   Título, subtítulo e botões começam invisíveis e um pouco deslocados para
+   baixo (opacity: 0 + translateY) — é esse estado inicial que o GSAP
+   (js/hero.js) anima até a posição final, criando a entrada em cascata.
+   ========================================================================== */
+
+.hero {
+    position: relative;
+    background-color: var(--color-bg);
+    min-height: 70vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 40px;
+    overflow: hidden;
+}
+
+/* Vinheta escura por cima da aurora, só pra garantir contraste do texto —
+   mais escura nas bordas, mais transparente no centro. */
+.hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: radial-gradient(ellipse at center, rgba(0, 0, 0, .25), rgba(0, 0, 0, .8) 80%);
+}
+
+/* ---- Fundo "aurora": 3 manchas de luz coloridas, borradas, se movendo
+   lentamente atrás do texto. Cada <span> é um círculo com gradiente radial;
+   o filter: blur() funde as bordas, e o keyframe move/escala cada uma em
+   um tempo e direção diferentes para o efeito parecer orgânico, não
+   sincronizado. mix-blend-mode: screen deixa as cores se somarem onde
+   se sobrepõem, como luzes. */
+.hero_aurora {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.hero_aurora span {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(70px);
+    opacity: .6;
+    mix-blend-mode: screen;
+}
+
+.hero_aurora span:nth-child(1) {
+    width: 480px;
+    height: 480px;
+    top: -140px;
+    left: -100px;
+    background: radial-gradient(circle, var(--color-accent-cta), transparent 70%);
+    animation: auroraFloat1 20s ease-in-out infinite;
+}
+
+.hero_aurora span:nth-child(2) {
+    width: 420px;
+    height: 420px;
+    bottom: -150px;
+    right: -80px;
+    background: radial-gradient(circle, var(--color-accent), transparent 70%);
+    animation: auroraFloat2 24s ease-in-out infinite;
+}
+
+.hero_aurora span:nth-child(3) {
+    width: 360px;
+    height: 360px;
+    top: 25%;
+    left: 42%;
+    background: radial-gradient(circle, #0ea5e9, transparent 70%);
+    animation: auroraFloat3 28s ease-in-out infinite;
+}
+
+@keyframes auroraFloat1 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50%      { transform: translate(70px, 50px) scale(1.15); }
+}
+
+@keyframes auroraFloat2 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50%      { transform: translate(-60px, -40px) scale(1.1); }
+}
+
+@keyframes auroraFloat3 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50%      { transform: translate(-50px, 60px) scale(1.2); }
+}
+
+/* Quem prefere menos movimento na tela não precisa das manchas animando */
+@media (prefers-reduced-motion: reduce) {
+    .hero_aurora span {
+        animation: none;
+    }
+}
+
+.hero_inner {
+    position: relative;
+    z-index: 2;
+    max-width: 720px;
+    display: grid;
+    justify-items: center;
+    gap: 24px;
+    text-align: center;
+}
+
+/* Estado inicial (antes do GSAP animar): invisível e 24px mais abaixo do lugar final */
+.hero_title,
+.hero_subtitle,
+.hero_actions {
+    opacity: 0;
+    transform: translateY(24px);
+}
+
+.hero_title {
+    font-family: 'Poppins';
+    font-weight: 700;
+    color: var(--color-text);
+    font-size: 28px;
+    line-height: 1.3;
+}
+
+.hero_subtitle {
+    font-family: 'Poppins';
+    font-weight: 300;
+    color: var(--color-text);
+    font-size: 16px;
+    line-height: 1.6;
+    max-width: 560px;
+}
+
+.hero_actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 18px;
+    justify-content: center;
+}
+
+.hero_cta {
+    padding: 15px 36px;
+    border-radius: var(--radius-sm);
+    font-family: 'Poppins';
+    font-weight: 600;
+    color: var(--color-text);
+    transition: transform var(--transition-fast), background-color var(--transition-fast), border-color var(--transition-fast), color var(--transition-fast);
+}
+
+.hero_cta--primary {
+    background-color: var(--color-accent-cta);
+    color: var(--color-accent-cta-text);
+}
+
+.hero_cta--primary:hover {
+    background-color: var(--color-accent-cta-hover);
+    transform: translateY(-2px);
+}
+
+.hero_cta--secondary {
+    border: 2px solid var(--color-text);
+}
+
+.hero_cta--secondary:hover {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+    transform: translateY(-2px);
+}
+
+@media (min-width: 993px) {
+    .hero {
+        min-height: 75vh;
+    }
+
+    .hero_title {
+        font-size: 42px;
+    }
+
+    .hero_subtitle {
+        font-size: 19px;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero {
+        padding: 30px 20px;
+    }
+
+    .hero_title {
+        font-size: 22px;
+    }
+
+    .hero_actions {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .hero_cta {
+        width: 100%;
+    }
+}

@@ -1,0 +1,73 @@
+/* ==========================================================================
+   PRELOADER
+   Tela de carregamento exibida por cima de tudo (position: fixed + z-index
+   alto) assim que o site abre. Fica visível até o js/preloader.js terminar
+   a animação de 0% a 100% e escondê-la, revelando a Hero.
+   ========================================================================== */
+
+.preloader {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background-color: #000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-md);
+}
+
+/* Linha de "terminal" digitando */
+.preloader_terminal {
+    font-family: 'Courier New', monospace;
+    font-size: 1rem;
+    color: var(--color-accent);
+    min-height: 24px;
+    display: flex;
+    align-items: center;
+}
+
+.preloader_prompt {
+    margin-right: 8px;
+    color: var(--color-text-muted);
+}
+
+.preloader_cursor {
+    margin-left: 2px;
+    animation: preloaderPisca .9s infinite;
+}
+
+@keyframes preloaderPisca {
+    from { opacity: 1; }
+    to { opacity: 0; }
+}
+
+/* Contador de porcentagem: fonte monoespaçada e grande, centralizado */
+.preloader_percent {
+    font-family: 'Courier New', monospace;
+    font-weight: bold;
+    font-size: clamp(3rem, 12vw, 6rem);
+    color: var(--color-text);
+    letter-spacing: 2px;
+}
+
+/* Barra de progresso fina, abaixo do contador */
+.preloader_bar {
+    width: min(320px, 70vw);
+    height: 3px;
+    background-color: var(--color-border);
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+.preloader_bar_fill {
+    height: 100%;
+    width: 0%;
+    background-color: var(--color-accent);
+    border-radius: 999px;
+}
+
+/* Enquanto o preloader está ativo, trava o scroll do restante do site */
+body.preloader-lock {
+    overflow: hidden;
+}
