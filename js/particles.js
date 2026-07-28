@@ -45,8 +45,12 @@
         // Usa o tamanho real do canvas na tela (limitado a 1200px de largura
         // pelo CSS), não o viewport inteiro — senão as partículas ficariam
         // espremidas/distorcidas dentro da área realmente visível.
-        width = canvas.width = canvas.clientWidth;
-        height = canvas.height = canvas.clientHeight;
+        // Os "|| window.innerWidth/innerHeight" são um seguro: se o CSS
+        // devolver 0 (celular com bug de altura de viewport carregando a
+        // página, ver comentário do 100dvh em hero.css), o canvas não fica
+        // com tamanho zero e as partículas somem sem ninguém entender por quê.
+        width = canvas.width = canvas.clientWidth || window.innerWidth;
+        height = canvas.height = canvas.clientHeight || window.innerHeight;
         criarParticulas();
     }
 
@@ -113,22 +117,20 @@
     if (prefersReducedMotion) {
         // Quem prefere menos movimento na tela recebe só um quadro parado
         desenhar();
-    } else if ('IntersectionObserver' in window) {
-        // Só anima enquanto a Hero está visível — economiza processamento
-        // depois que o usuário já rolou lá pra baixo no site.
-        const hero = document.getElementById('hero');
-        const observer = new IntersectionObserver(
-            (entries) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting) iniciar();
-                    else parar();
-                });
-            },
-            { threshold: 0 }
-        );
-        if (hero) observer.observe(hero);
-        else iniciar();
     } else {
+        // O fundo agora aparece translúcido em TODAS as seções (não só na
+        // Hero — ver background-color em rgba() nas seções em style.css),
+        // então a animação precisa continuar rodando o site inteiro, não só
+        // enquanto a Hero está visível.
         iniciar();
+
+        // Único cuidado que ainda vale a pena: pausar quando a ABA fica em
+        // segundo plano (usuário troca de aba/app) — isso não afeta o que
+        // aparece na tela, só evita gastar bateria/processamento à toa com
+        // a aba escondida.
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) parar();
+            else iniciar();
+        });
     }
 })();

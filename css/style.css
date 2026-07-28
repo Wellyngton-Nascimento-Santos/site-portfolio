@@ -6,6 +6,15 @@
     --color-bg: #000;
     --color-bg-alt: #111;
     --color-bg-soft: #151515;
+    /* Versões translúcidas de --color-bg/--color-bg-alt — usadas no fundo
+       das seções (Serviços, Projetos, Sobre, Formação, Como Eu Trabalho,
+       Contato) pra deixar o fundo fixo de partículas (js/particles.js)
+       aparecer por baixo do conteúdo no site inteiro, não só na Hero.
+       Pra ajustar quão visível o efeito fica, é só mexer no alpha (o
+       último número) aqui — mais perto de 1 = mais opaco/sutil, mais
+       perto de 0 = mais transparente/forte. */
+    --color-bg-translucent: rgba(0, 0, 0, .72);
+    --color-bg-alt-translucent: rgba(17, 17, 17, .72);
     --color-surface: #222;
     --color-surface-hover: #3e3d3d;
     --color-border: #333;
@@ -52,7 +61,7 @@
 }
 
 body {
-    background-color: var(--color-bg);
+    background-color: var(--color-bg-translucent);
     max-width: 1200px;
     margin: 0 auto;
 }
@@ -61,7 +70,7 @@ body {
 /* HEADER */
 
 header {
-    background-color: var(--color-bg);
+    background-color: var(--color-bg-translucent);
     padding: 10px;
     display: flex;
     align-items: center;
@@ -135,7 +144,7 @@ header .navegacao-primaria li a:hover::after {
 /*Seção Principal sobre mim*/
 
 main {
-    background-color: var(--color-bg-alt);
+    background-color: var(--color-bg-alt-translucent);
     color: white;
 }
 
@@ -371,7 +380,7 @@ main .sobre {
        partículas fixo (ver .hero_particles) aparecer por trás dela quando
        ela ocupa o topo da tela — mesma cor de fundo das seções vizinhas
        (Sobre Mim e Como Eu Trabalho) pra manter a continuidade visual. */
-    background-color: var(--color-bg-alt);
+    background-color: var(--color-bg-alt-translucent);
     padding: var(--space-md) 0;
     color: var(--color-text);
 }
@@ -431,7 +440,7 @@ main .sobre {
 .working {
     padding: var(--space-md);
     color: var(--color-text);
-    background-color: var(--color-bg-alt);
+    background-color: var(--color-bg-alt-translucent);
 }
 
 .working_grid {
@@ -536,7 +545,7 @@ main .sobre {
 
 /* FOOTER */
 footer {
-    background-color: var(--color-bg);
+    background-color: var(--color-bg-translucent);
     padding: 30px 30px 180px;
 }
 
@@ -655,7 +664,7 @@ footer .footer_comercial {
     display: grid;
     grid-template-columns: 1fr;
     gap: var(--space-md);
-    background-color: var(--color-bg-alt);
+    background-color: var(--color-bg-alt-translucent);
 }
 
 .portfolio_grid {
@@ -811,7 +820,7 @@ footer .footer_comercial {
     display: grid;
     grid-template-columns: 1fr;
     gap: var(--space-md);
-    background-color: var(--color-bg);
+    background-color: var(--color-bg-translucent);
 }
 
 .services_grid {
@@ -938,7 +947,7 @@ footer .footer_comercial {
     display: grid;
     grid-template-columns: 1fr;
     gap: var(--space-md);
-    background-color: var(--color-bg-alt);
+    background-color: var(--color-bg-alt-translucent);
 }
 
 .contact > * {

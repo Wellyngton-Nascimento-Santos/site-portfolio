@@ -41,8 +41,16 @@
        nas laterais em telas largas, onde o site já limita tudo a 1200px. */
     max-width: 1200px;
     /* <canvas> é um elemento "replaced" — diferente de uma div comum, ele
-       NÃO estica sozinho só com top:0/bottom:0, precisa de altura explícita. */
+       NÃO estica sozinho só com top:0/bottom:0, precisa de altura explícita.
+       100vh é o suspeito nº1 de o efeito não aparecer no celular: no
+       mobile, 100vh conta com a barra de endereço RECOLHIDA, então em
+       alguns navegadores (principalmente Safari/iOS) o canvas nasce com
+       altura errada (às vezes 0) na hora que a página carrega. 100dvh
+       ("dynamic viewport height") resolve isso usando a altura real
+       visível — a linha de cima fica só como fallback pra navegador
+       muito antigo que não conhece dvh. */
     height: 100vh;
+    height: 100dvh;
     transform: translateX(-50%);
     z-index: -1;
     background-color: var(--color-bg);
@@ -57,13 +65,14 @@
     inset: 0;
     z-index: 1;
     /* Duas camadas: a primeira (linear-gradient) escurece só a faixa final
-       lá embaixo até virar --color-bg sólido (mesma cor da seção seguinte,
-       Serviços) — assim a transição de "partículas visíveis" pra "fundo
-       sólido" fica suave, em vez de parecer que o fundo sumiu de repente.
-       A segunda (radial-gradient) é a vinheta original, pra dar contraste
-       ao texto no centro. */
+       lá embaixo até o mesmo tom translúcido da seção seguinte (Serviços,
+       ver --color-bg-translucent em style.css) — já que agora o fundo de
+       partículas aparece translúcido no site inteiro, a Hero termina no
+       mesmo "nível" de transparência das outras seções, sem criar uma
+       faixa sólida isolada bem no meio do efeito. A segunda (radial-
+       gradient) é a vinheta original, pra dar contraste ao texto no centro. */
     background:
-        linear-gradient(to bottom, transparent 60%, var(--color-bg) 100%),
+        linear-gradient(to bottom, transparent 60%, var(--color-bg-translucent) 100%),
         radial-gradient(ellipse at center, rgba(0, 0, 0, .25), rgba(0, 0, 0, .8) 80%);
 }
 
