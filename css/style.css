@@ -60,6 +60,20 @@
     text-decoration: none;
 }
 
+/* Em telas mais largas que 1200px, o <body> (limitado a 1200px, ver
+   max-width abaixo) deixa uma sobra dos dois lados. Por padrão, o
+   navegador "estica" o fundo do body pra preencher essa sobra também
+   (é assim que o CSS funciona) — só que como o body agora é translúcido,
+   isso pintava a sobra de um cinza esquisito (a cor translúcida por
+   cima do branco padrão da página, já que ali não tem o canvas de
+   partículas por trás, só o <body> mesmo tá limitado a 1200px).
+   Dar um fundo sólido pro <html> impede esse "esticamento": a sobra
+   fica preta sólida (igual sempre foi) e só a área de 1200px do body
+   fica com o efeito translúcido de verdade. */
+html {
+    background-color: var(--color-bg);
+}
+
 body {
     background-color: var(--color-bg-translucent);
     max-width: 1200px;
