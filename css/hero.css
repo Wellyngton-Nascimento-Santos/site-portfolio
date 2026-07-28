@@ -61,23 +61,24 @@
     pointer-events: none;
 }
 
-/* Vinheta escura por cima da aurora, só pra garantir contraste do texto —
-   mais escura nas bordas, mais transparente no centro. */
+/* Esse ::before ficou "morto" de propósito (sem background). Antes ele
+   tinha uma vinheta (linear + radial-gradient) pra escurecer bordas/rodapé
+   da Hero e dar contraste ao texto — mas isso era necessário quando a
+   Hero não tinha fundo translúcido próprio (mostrava o canvas "cru").
+   Agora que .hero já tem var(--color-bg-translucent) (mesma camada única
+   das outras seções, ver acima), somar a vinheta por cima criava uma
+   SEGUNDA camada escura ali (mesmo tipo de bug do body+seção duplicados
+   que já corrigimos) — deixava a Hero visivelmente mais escura/apagada
+   que o resto do site, sobretudo nas bordas. O texto já tem contraste de
+   sobra só com a camada translúcida padrão (é o que acontece em todas as
+   outras seções). Mantido o seletor (não o elemento) caso algum dia
+   valha a pena reintroduzir um efeito bem sutil aqui. */
 .hero::before {
     content: '';
     position: absolute;
     inset: 0;
     z-index: 1;
-    /* Duas camadas: a primeira (linear-gradient) escurece só a faixa final
-       lá embaixo até o mesmo tom translúcido da seção seguinte (Serviços,
-       ver --color-bg-translucent em style.css) — já que agora o fundo de
-       partículas aparece translúcido no site inteiro, a Hero termina no
-       mesmo "nível" de transparência das outras seções, sem criar uma
-       faixa sólida isolada bem no meio do efeito. A segunda (radial-
-       gradient) é a vinheta original, pra dar contraste ao texto no centro. */
-    background:
-        linear-gradient(to bottom, transparent 60%, var(--color-bg-translucent) 100%),
-        radial-gradient(ellipse at center, rgba(0, 0, 0, .25), rgba(0, 0, 0, .8) 80%);
+    pointer-events: none;
 }
 
 /* ---- Fundo "aurora" (NÃO usado mais na Hero — substituído pela rede de
