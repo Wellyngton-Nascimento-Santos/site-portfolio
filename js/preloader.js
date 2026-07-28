@@ -13,6 +13,35 @@
     const preloader = document.getElementById('preloader');
     if (!preloader) return;
 
+    // Só mostra a animação de carregamento uma vez por sessão de
+    // navegação (essa aba, até o navegador ser fechado) — quem já viu
+    // não fica esperando de novo toda vez que volta pra home ou dá F5.
+    // Fechou o navegador e abriu de novo outro dia? Vê a animação de novo.
+    let jaMostrouNessaSessao = false;
+    try {
+        jaMostrouNessaSessao = sessionStorage.getItem('preloaderVisto') === '1';
+    } catch (e) {
+        // Alguns navegadores bloqueiam sessionStorage (modo privado bem
+        // restrito, por exemplo) — nesse caso só mostra o preloader normal.
+    }
+
+    if (jaMostrouNessaSessao) {
+        preloader.style.display = 'none';
+        // setTimeout 0: dá tempo dos outros <script> (como js/hero.js, que
+        // carrega DEPOIS deste) rodarem e registrarem o listener do evento
+        // 'preloaderComplete' antes da gente disparar ele — se disparasse
+        // na hora, sairia "no vácuo" (hero.js ainda nem tinha rodado) e a
+        // Hero nunca entrava, ficava invisível pra sempre.
+        setTimeout(() => {
+            document.dispatchEvent(new CustomEvent('preloaderComplete'));
+        }, 0);
+        return;
+    }
+
+    try {
+        sessionStorage.setItem('preloaderVisto', '1');
+    } catch (e) {}
+
     // Trava o scroll da página enquanto o preloader estiver visível
     document.body.classList.add('preloader-lock');
 
