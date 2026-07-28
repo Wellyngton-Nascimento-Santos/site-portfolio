@@ -61,21 +61,28 @@
 }
 
 /* Em telas mais largas que 1200px, o <body> (limitado a 1200px, ver
-   max-width abaixo) deixa uma sobra dos dois lados. Por padrão, o
-   navegador "estica" o fundo do body pra preencher essa sobra também
-   (é assim que o CSS funciona) — só que como o body agora é translúcido,
-   isso pintava a sobra de um cinza esquisito (a cor translúcida por
-   cima do branco padrão da página, já que ali não tem o canvas de
-   partículas por trás, só o <body> mesmo tá limitado a 1200px).
-   Dar um fundo sólido pro <html> impede esse "esticamento": a sobra
-   fica preta sólida (igual sempre foi) e só a área de 1200px do body
-   fica com o efeito translúcido de verdade. */
+   max-width abaixo) deixa uma sobra dos dois lados. Se o <html> não
+   tivesse um fundo próprio, o navegador usaria o fundo "canvas" padrão
+   (branco) nessa sobra, já que ali não tem nenhuma seção (nem o canvas
+   de partículas, que também é limitado a 1200px) por trás. Um fundo
+   sólido aqui garante que a sobra sempre fique preta sólida, igual
+   sempre foi, independente do que estiver acontecendo dentro do body. */
 html {
     background-color: var(--color-bg);
 }
 
 body {
-    background-color: var(--color-bg-translucent);
+    /* IMPORTANTE: não dar background-color translúcido aqui. Cada seção
+       (header, .services, .portfolio, .my_resume, .working, .contact,
+       footer, main) já tem seu próprio var(--color-bg-translucent) /
+       var(--color-bg-alt-translucent) — se o body também tivesse um,
+       as duas camadas translúcidas se somariam (uma por cima da outra)
+       e o resultado ficaria bem mais opaco do que os 72% pretendidos
+       (quase sólido), escondendo quase todo o efeito de partículas em
+       toda seção — foi exatamente esse o bug: só a Hero (que não tem
+       background próprio) mostrava o fundo direito, o resto da página
+       ficava "apagado". Deixando o body transparente, cada seção some
+       exatamente numa única camada translúcida, uniforme no site inteiro. */
     max-width: 1200px;
     margin: 0 auto;
 }

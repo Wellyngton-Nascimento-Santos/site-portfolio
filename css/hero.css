@@ -7,11 +7,14 @@
    ========================================================================== */
 
 /* Fundo fixo com rede de partículas (ver .hero_particles e js/particles.js).
-   O canvas fica "grudado" na tela atrás de tudo (position: fixed no body);
-   por isso a Hero NÃO tem background-color própria — é essa transparência
-   que deixa o canvas aparecer aqui. Assim que a página rola pra próxima
-   seção (que tem fundo sólido), ela cobre o canvas naturalmente, criando
-   o efeito de fundo fixo enquanto o site "desce" por cima. */
+   O canvas fica "grudado" na tela atrás de tudo (position: fixed no body).
+   A Hero usa a mesma cor translúcida das outras seções (uma camada só,
+   var(--color-bg-translucent)) pra ficar no mesmo nível de transparência
+   do resto do site — sem isso, a Hero ficaria com o canvas "cru" (sem
+   nenhum filtro, só a vinheta do ::before), bem mais forte/vivo que as
+   outras seções. Assim que a página rola pra próxima seção, ela cobre o
+   canvas naturalmente, criando o efeito de fundo fixo enquanto o site
+   "desce" por cima. */
 .hero {
     position: relative;
     /* isolation: isolate cria um novo contexto de empilhamento pra Hero.
@@ -20,6 +23,7 @@
        aberto (header .navegacao-primaria.ativado) — por isso o menu
        aparecia meio "por baixo"/transparente no celular. */
     isolation: isolate;
+    background-color: var(--color-bg-translucent);
     min-height: 70vh;
     display: flex;
     align-items: center;

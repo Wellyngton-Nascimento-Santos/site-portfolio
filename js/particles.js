@@ -5,8 +5,8 @@
    rola — a Hero não tem fundo próprio, então o canvas aparece por trás
    dela; assim que você rola pra seção seguinte (que tem fundo sólido),
    ela cobre o canvas naturalmente, criando o efeito de fundo fixo.
-   Só anima enquanto a Hero está visível na tela (IntersectionObserver),
-   pra não gastar processamento à toa quando o usuário já rolou pra baixo.
+   Anima o site inteiro (não só a Hero) — só pausa quando a aba fica em
+   segundo plano, pra não gastar processamento à toa.
    ========================================================================== */
 
 (function () {
