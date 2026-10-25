@@ -127,11 +127,24 @@ document.getElementById('pularIntro').addEventListener('click', entrar);
 document.getElementById('entrarDireto').addEventListener('click', entrar);
 document.getElementById('sairNotebook').addEventListener('click', sair);
 
+// Outros jeitos de voltar ao início: o título da janela, o ".." do
+// explorador (qualquer elemento com a classe js-voltar) e a tecla Esc
+document.addEventListener('click', (e) => {
+    if (e.target.closest('.js-voltar')) sair();
+});
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && dentro) sair();
+});
+
 /* ==========================================================================
    A CENA
    ========================================================================== */
 
-function criarCena(THREE, RoundedBoxGeometry, RoomEnvironment) {
+// Espera o próximo quadro da tela: divide a montagem da cena em partes menores,
+// pra não travar a página num bloco só (o navegador consegue responder entre elas)
+const umQuadro = () => new Promise((r) => requestAnimationFrame(() => r()));
+
+async function criarCena(THREE, RoundedBoxGeometry, RoomEnvironment) {
     const canvas = document.getElementById('cena3d');
     const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, powerPreference: 'high-performance' });
     renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
@@ -146,6 +159,8 @@ function criarCena(THREE, RoundedBoxGeometry, RoomEnvironment) {
     // Ambiente de "estúdio" gerado na hora: dá os reflexos do alumínio
     const pmrem = new THREE.PMREMGenerator(renderer);
     scene.environment = pmrem.fromScene(new RoomEnvironment(renderer), .04).texture;
+    pmrem.dispose();
+    await umQuadro();
 
     const camera = new THREE.PerspectiveCamera(30, window.innerWidth / window.innerHeight, .05, 200);
 
@@ -179,6 +194,7 @@ function criarCena(THREE, RoundedBoxGeometry, RoomEnvironment) {
     const vidroPreto = new THREE.MeshStandardMaterial({ color: 0x020304, metalness: 0, roughness: .35, envMapIntensity: .25 });
     const touchpadMat = new THREE.MeshStandardMaterial({ color: 0x353a42, metalness: .6, roughness: .25 });
 
+    await umQuadro();
     const notebook = new THREE.Group();
     scene.add(notebook);
 
@@ -389,23 +405,20 @@ function criarCena(THREE, RoundedBoxGeometry, RoomEnvironment) {
     const PREVIA = [
         ['h', '# Wellyngton Nascimento Santos'],
         ['', ''],
-        ['', 'Estudante de **Engenharia de Software** na Universidade Estácio,'],
-        ['', 'com conclusão prevista para 2028. Moro em Osasco, SP.'],
+        ['', 'Estudante de **Engenharia de Software** na Universidade Estácio (conclusão em 2028). Moro em Osasco, SP. Meu primeiro curso de informática foi em 2009, e desde então a tecnologia nunca saiu da minha rotina.'],
         ['', ''],
         ['h', '## Hoje'],
-        ['', '- Desenvolvo sites e sistemas para clientes reais.'],
-        ['', '- Tenho um sistema de agendamento online em produção, com'],
-        ['', '  front-end, API em Node.js e banco PostgreSQL.'],
+        ['', '- Cofundador da **NaDel Soluções Digitais**, onde cuido do desenvolvimento.'],
+        ['', '- Crio sites institucionais, landing pages e sistemas web, como agendamento online com área administrativa.'],
         ['', ''],
-        ['h', '## Antes do código'],
-        ['', '- 8 anos na Força Aérea Brasileira (2014 a 2022).'],
-        ['', '- Coordenei a equipe de atendimento médico ao público.'],
-        ['', '- Participei da implantação de um novo sistema de cadastro'],
-        ['', '  de moradores.'],
+        ['h', '## O que procuro'],
+        ['', '- **Estágio ou desenvolvedor júnior**.'],
         ['', ''],
-        ['h', '## O que procuro']
+        ['h', '## Força Aérea Brasileira (2014 a 2022)'],
+        ['', '- 8 anos na área administrativa, 5 deles cuidando do cadastro de moradores das vilas militares.'],
+        ['', '- Quando a FAB implantou um sistema novo, fiz o cadastro inicial de mais de 1.600 moradores e imóveis de São Paulo e Guarulhos, além da fila de espera.']
     ];
-    const ARQUIVOS = ['sobre.md', 'projetos.js', 'stack.json', 'formacao.md', 'contato.sh'];
+    const ARQUIVOS = ['.. voltar ao início', 'sobre.md', 'projetos.js', 'stack.json', 'formacao.md', 'contato.sh'];
 
     function desenharEditor() {
         const W = telaCanvas.width;
@@ -448,14 +461,14 @@ function criarCena(THREE, RoundedBoxGeometry, RoomEnvironment) {
         tctx.font = `500 16px ${MONO}`;
         ARQUIVOS.forEach((nome, i) => {
             const yy = 152 + i * 32;
-            if (i === 0) {
+            if (i === 1) {
                 tctx.fillStyle = 'rgba(0, 217, 255, .1)';
                 tctx.fillRect(56, yy - 21, 270, 30);
                 tctx.fillStyle = '#00d9ff';
                 tctx.fillRect(56, yy - 21, 3, 30);
             }
-            tctx.fillStyle = i === 0 ? '#e6edf3' : '#8b98a9';
-            tctx.fillText(nome, 104, yy);
+            tctx.fillStyle = i === 1 ? '#e6edf3' : '#8b98a9';
+            tctx.fillText(nome, i === 0 ? 80 : 104, yy);
         });
 
         // Abas
@@ -470,17 +483,37 @@ function criarCena(THREE, RoundedBoxGeometry, RoomEnvironment) {
 
         // Código com números de linha
         tctx.font = `500 17px ${MONO}`;
+        // Quebra as linhas longas igual ao editor de verdade: número só na
+        // primeira parte e continuação 2 caracteres pra dentro
+        const LARG_MAX = W - 404 - 40;
+        let yy = 124;
         PREVIA.forEach(([tipo, texto], i) => {
-            const yy = 124 + i * 30;
+            if (yy > H - 60) return;
             tctx.fillStyle = '#4a586b';
             tctx.textAlign = 'right';
+            tctx.font = `500 17px ${MONO}`;
             tctx.fillText(String(i + 1), 380, yy);
             tctx.textAlign = 'left';
             tctx.fillStyle = tipo === 'h' ? '#00d9ff' : '#c9d4e0';
             tctx.font = tipo === 'h' ? `700 17px ${MONO}` : `500 17px ${MONO}`;
-            tctx.fillText(texto, 404, yy);
-            tctx.font = `500 17px ${MONO}`;
+            const recuo = tctx.measureText('  ').width;
+            let linha = '';
+            let primeira = true;
+            texto.split(' ').forEach((palavra) => {
+                const teste = linha ? `${linha} ${palavra}` : palavra;
+                if (tctx.measureText(teste).width > LARG_MAX - (primeira ? 0 : recuo) && linha) {
+                    tctx.fillText(linha, 404 + (primeira ? 0 : recuo), yy);
+                    yy += 30;
+                    primeira = false;
+                    linha = palavra;
+                } else {
+                    linha = teste;
+                }
+            });
+            tctx.fillText(linha, 404 + (primeira ? 0 : recuo), yy);
+            yy += 30;
         });
+        tctx.font = `500 17px ${MONO}`;
 
         // Barra de status
         tctx.fillStyle = '#062a35';
@@ -489,7 +522,7 @@ function criarCena(THREE, RoundedBoxGeometry, RoomEnvironment) {
         tctx.fillStyle = '#bfeffa';
         tctx.fillText('main', 20, H - 10);
         tctx.fillStyle = '#3ddc97';
-        tctx.fillText('● disponível para estágio', 90, H - 10);
+        tctx.fillText('● aberto a oportunidades', 90, H - 10);
     }
 
     // Só redesenha a textura quando algo mudou (economiza GPU)
@@ -560,12 +593,27 @@ function criarCena(THREE, RoundedBoxGeometry, RoomEnvironment) {
         }
     });
 
+    // Só redesenha quando algo muda (rolagem ou cursor piscando no terminal).
+    // Parado no hero ou parado no meio da animação, a placa de vídeo descansa,
+    // o que poupa bateria no celular.
+    let ultimoP = -1;
+    let ultimoCursor = null;
+    let forcar = true;
+
     function quadro(tempo) {
         const p = estado.p;
+        const cursorAgora = Math.floor(tempo * 2.2) % 2 === 0;
+        const cursorConta = p > .52 && p < .8;
+        if (p > .993 && !dentro) entrar();
+        if (!forcar && Math.abs(p - ultimoP) < 1e-5 && (!cursorConta || cursorAgora === ultimoCursor)) return;
+        forcar = false;
+        ultimoP = p;
+        ultimoCursor = cursorAgora;
 
         /* 1. Notebook sobe girando, vindo de baixo da tela */
         // No celular em pé o notebook pode "vazar" um pouco das bordas: fica mais imersivo
-        const retrato = camera.aspect < 1;
+        // Só celular em pé (tela bem estreita); tablet em pé usa o enquadramento normal
+        const retrato = camera.aspect < .7;
         const distA = distanciaPraCaber(3.6, 2.6, retrato ? 1 : .78);
         // Começa bem abaixo da borda da tela, pra não aparecer atrás do hero
         const yInicial = alvoA.y - distA * metadeFov() * 1.7 - 1.6;
@@ -589,7 +637,7 @@ function criarCena(THREE, RoundedBoxGeometry, RoomEnvironment) {
         const digita = faixa(p, .53, .73);
         const caracteres = Math.round(clamp(digita / .4) * COMANDO.length);
         const saidas = Math.floor(clamp((digita - .45) / .5) * SAIDAS.length);
-        const cursor = Math.floor(tempo * 2.2) % 2 === 0;
+        const cursor = cursorAgora;
         const mistura = suave(faixa(p, .73, .79));
         atualizarTela(caracteres, saidas, cursor, mistura);
 
@@ -628,14 +676,13 @@ function criarCena(THREE, RoundedBoxGeometry, RoomEnvironment) {
         sombraMat.opacity = sobe * (1 - mergulho);
 
         renderer.render(scene, camera);
-
-        if (p > .993 && !dentro) entrar();
     }
 
     let rodando = false;
     function retomar() {
         if (rodando) return;
         rodando = true;
+        forcar = true;
         gsap.ticker.add(quadro);
     }
     function pausar() {
@@ -651,35 +698,61 @@ function criarCena(THREE, RoundedBoxGeometry, RoomEnvironment) {
         if (suavizacao) suavizacao.progress(1);
         animacao.progress(0);
         estado.p = 0;
+        forcar = true;
     }
 
     window.addEventListener('resize', () => {
         camera.aspect = window.innerWidth / window.innerHeight;
         camera.updateProjectionMatrix();
         renderer.setSize(window.innerWidth, window.innerHeight, false);
+        forcar = true;
     });
 
+    // Compila os shaders sem travar a página, quando o navegador permite
+    if (renderer.compileAsync) await renderer.compileAsync(scene, camera);
+    await umQuadro();
     retomar();
     return { pausar, retomar, resetar };
 }
 
 /* ---------------- Inicialização ---------------- */
 
-(async () => {
-    if (reduz) {
-        body.classList.add('sem-3d');
-        return;
-    }
+async function carregar3D() {
     try {
         const THREE = await import('three');
         const { RoundedBoxGeometry } = await import('three/addons/geometries/RoundedBoxGeometry.js');
         const { RoomEnvironment } = await import('three/addons/environments/RoomEnvironment.js');
-        cena = criarCena(THREE, RoundedBoxGeometry, RoomEnvironment);
+        cena = await criarCena(THREE, RoundedBoxGeometry, RoomEnvironment);
         ligarLenis();
     } catch (erro) {
         // Sem WebGL ou sem internet pra baixar o Three.js: versão simples com botão
         console.warn('Usando versão simples da abertura:', erro);
         body.classList.add('sem-3d');
     }
-})();
+}
+
+// O Three.js é a parte mais pesada da página. Em vez de baixar e montar a
+// cena logo de cara (o que atrasava o hero aparecer e responder ao toque),
+// ele começa a carregar quando o navegador fica livre depois da página
+// pronta, ou antes disso se a pessoa já começar a rolar.
+let iniciou3D = false;
+const GATILHOS = ['wheel', 'touchstart', 'keydown', 'scroll'];
+
+function iniciar3D() {
+    if (iniciou3D) return;
+    iniciou3D = true;
+    GATILHOS.forEach((ev) => window.removeEventListener(ev, iniciar3D));
+    carregar3D();
+}
+
+if (reduz) {
+    body.classList.add('sem-3d');
+} else {
+    GATILHOS.forEach((ev) => window.addEventListener(ev, iniciar3D, { passive: true }));
+    const quandoLivre = () => ('requestIdleCallback' in window)
+        ? requestIdleCallback(iniciar3D, { timeout: 1500 })
+        : setTimeout(iniciar3D, 800);
+    if (document.readyState === 'complete') quandoLivre();
+    else window.addEventListener('load', quandoLivre, { once: true });
+}
 })();
